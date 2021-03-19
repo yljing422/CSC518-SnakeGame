@@ -3,7 +3,6 @@ package snake.game;
 import java.awt.EventQueue;
 
 import snake.view.MainWindow;
-
 public class Game {
 	
 	public static void main(String[] args) {
