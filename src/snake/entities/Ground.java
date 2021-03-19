@@ -3,107 +3,112 @@ package snake.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.ImageObserver;
 import java.util.Random;
 
 import snake.util.Global;
 
+import javax.swing.*;
+
 public class Ground {
 	/*
-	*定义存放石头坐标的数组，1为石头，0为空白区域。 
-	*一定要用全局静态变量，始终占用空间。否则会在产生食物时出错
+	define a new int array to store trees,if there is a tree,the value is 1,otherwise is 0
+	it must be static to avoid cause collision when generate food
     */
-	private static final int rocks[][] =
+	private static final int trees[][] =
 			new int[Global.WIDTH][Global.HEIGHT];
-	//存放石头的个数
-	public int rocksCount = 0;
-	//是否画网格
+	// Count the number of trees
+	public int treesCount = 0;
+	// draw grid or not
 	private boolean isDrawGriding;
-	//选择地图是使用
+	//map = 1, means the map is selected
 	public int MAP = 1;
-	//构造方法，初始化地图
+	private ImageObserver img;
+
+	//initial the map
 	public Ground() {
 		init();
 	}
-	//清除所有石头
+	//clear all trees
 	public void clear() {
 		for (int x = 0; x < Global.WIDTH; x++)
 			for (int y = 0; y < Global.HEIGHT; y++)
-				rocks[x][y] = 0;
+				trees[x][y] = 0;
 	}
-	//初始化石头位置
+	//initial the position of all trees
 	public void init() {
-		//清除所有石头
+		//call clear stone method
 		clear();
-		//选择地图
+		//switch to map mode
 		switch(MAP) {
 		case 1:
-			map1(); //地图1
-			//获得石头个数
-			getScoksCount();
+			map1(); //mode 1 use map 1
+			//get the number of trees
+			getTreesCount();
 			break;
 		case 2:
-			map2(); //地图2
-			getScoksCount();
+			map2(); //mode 2 use map 2get the number of trees
+			getTreesCount();
 			break;
 		case 3:
-			map3(); //随机地图
-			getScoksCount();
+			map3(); //mode 3 random map get the number of trees
+			getTreesCount();
 			break;
 		default :
-			map1(); //默认地图1
-			getScoksCount();
+			map1(); //默锟较碉拷图1
+			getTreesCount();
 			break;
 		}
 	}
-	//第一组默认地图石头坐标
+	//map 1 set the position of trees(as the wall of game panel)
 	public void map1() {
 		for(int x = 0; x < Global.WIDTH; x++) {
-			rocks[x][0] = 1;
-			rocks[x][Global.HEIGHT-1] = 1;
+			trees[x][0] = 1;
+			trees[x][Global.HEIGHT-1] = 1;
 		}
 		for(int y = 0; y < Global.HEIGHT; y++) {
-			rocks[0][y] = 1;
-			rocks[Global.WIDTH-1][y]  = 1;
+			trees[0][y] = 1;
+			trees[Global.WIDTH-1][y]  = 1;
 		}
 	}
-	//第二个地图
+	//map 2 set the position of trees(as the wall of game panel)
 	public void map2() {
 		for(int x = 5; x < Global.WIDTH-5; x++) {
-			rocks[x][5] = 1;
-			rocks[x][Global.HEIGHT-4] = 1;
+			trees[x][5] = 1;
+			trees[x][Global.HEIGHT-4] = 1;
 		}
 		for(int y = 9; y < Global.HEIGHT-8; y++) {
-			rocks[9][y] = 1;
-			rocks[Global.WIDTH-9][y] = 1;
+			trees[9][y] = 1;
+			trees[Global.WIDTH-9][y] = 1;
 		}
 	}
-	//随机地图，随机获得40个坐标座位石头
+	//map 3  set 40 trees randomly
 	public void map3() {
 		Random random = new Random();
 		int x = 0,y = 0;
 		for(int i = 0; i < 40; i++) {
 			x = random.nextInt(Global.WIDTH);
 			y = random.nextInt(Global.HEIGHT);
-			rocks[x][y] = 1;
+			trees[x][y] = 1;
 		}
 	}
 	
-	//获得石头总共数目
-	public void getScoksCount() {
-		//每次更换地图时清零，重新获得
-		rocksCount = 0;
+	//get the total number of trees
+	public void getTreesCount() {
+		//clear all trees when switch map
+		treesCount = 0;
 		for (int x = 0; x < Global.WIDTH; x++)
 			for (int y = 0; y < Global.HEIGHT; y++)
-				if (rocks[x][y] == 1) {
-					rocksCount++;
+				if (trees[x][y] == 1) {
+					treesCount++;
 				}
 	}
-	//判断蛇是否吃到石头
-	//把蛇的所有节点与石头坐标进行比较如果想等则证明吃到石头
-	public boolean isSnakeEatRock(Snake snake) {
+	//check whether the snake hit a tree
+	//by comparing the snake's body with positions of all trees
+	public boolean isSnakeHitTree(Snake snake) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
-				if (rocks[x][y] == 1 
+				if (trees[x][y] == 1
 						&& x == snake.getHead().x  
 							&& y == snake.getHead().y) {
 					return true;
@@ -112,36 +117,35 @@ public class Ground {
 		}
 		return false;
 	}
-	//获得不会与石头重叠的随机坐标
+	//Get the point which hasn't occupied by trees
 	public Point getPoint() {
 		Random random = new Random();
 		int x = 0, y = 0;
 		do{
 			 x = random.nextInt(Global.WIDTH);
 			 y = random.nextInt(Global.HEIGHT);
-		}while(rocks[x][y] == 1);
+		}while(trees[x][y] == 1);
 		return new Point(x, y);
 	}
-	//画石头和网格
+	//draw grid and trees
 	public void drawMe(Graphics g) {
-		drawRocks(g);
+		drawtrees(g);
 		if (isDrawGriding) {
 			drawGriding(g);
 		}
 	}
-	//画石头
-	public void drawRocks(Graphics g) {
+	//draw trees
+	public void drawtrees(Graphics g) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
-				if (rocks[x][y] == 1) {
-					g.setColor(Color.DARK_GRAY);
-					g.fill3DRect(x * Global.CELL_SIZE, y * Global.CELL_SIZE,
-							Global.CELL_SIZE, Global.CELL_SIZE, true);
+				if (trees[x][y] == 1) {
+					ImageIcon icon2 =new ImageIcon("/Users/ChloeYO/Desktop/tree.jpeg");
+					g.drawImage(icon2.getImage(),x * Global.CELL_SIZE, y * Global.CELL_SIZE, Global.CELL_SIZE, Global.CELL_SIZE,img);
 				}
 			}
 		}
 	}
-	//画网格
+	//draw grid
 	public void drawGriding(Graphics g) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
@@ -154,11 +158,10 @@ public class Ground {
 			}
 		}
 	}
-	//需要要画网格
+	//check whether 'drawing grid' is chosen by player
 	public void drawGriding() {
 		isDrawGriding = true;
 	}
-	//不需要画网格
 	public void notDrawGriding() {
 		isDrawGriding = false;
 	}

@@ -22,11 +22,11 @@ import snake.listener.SnakeListener;
 import snake.util.Global;
 import snake.view.GamePanel;
 
-/*¿ØÖÆÆ÷
-* ¿ØÖÆGround, Snake, Food<BR>
-* ¸ºÔğÓÎÏ·µÄÂß¼­
-* ´¦Àí°´¼üÊÂ¼ş
-* ÊµÏÖÁËSnakeListener½Ó¿Ú, ¿ÉÒÔ´¦ÀíSnake ´¥·¢µÄÊÂ¼ş
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+* ï¿½ï¿½ï¿½ï¿½Ground, Snake, Food<BR>
+* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ß¼ï¿½
+* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+* Êµï¿½ï¿½ï¿½ï¿½SnakeListenerï¿½Ó¿ï¿½, ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Snake ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 */
 public class Controller extends KeyAdapter implements SnakeListener {
 	
@@ -34,123 +34,123 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	private Food food;
 	private Ground ground;
 	private GamePanel gamePanel;
-    //´æ·Åµ±¾ÖÓÎÏ·µÃ·Ö
+    //ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ã·ï¿½
 	public int score = 0;
-	//´æ·ÅÀúÊ·×î¸ßµÃ·Ö£¬Õâ¸öÊı¾İÍ¨¹ı¶ÁÈ¡ÎÄ¼şÀ´¸³Öµ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½ßµÃ·Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 	public int maxScore;
 	public Thread thread;
 
-	//¹¹Ôì·½·¨£¬³õÊ¼»¯
+	//ï¿½ï¿½ï¿½ì·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 	public Controller(Snake snake, Food food, Ground ground, GamePanel gamePanel) {
 		super();
 		this.snake = snake; 
 		this.food = food;
 		this.ground = ground;
 		this.gamePanel = gamePanel;
-		//Ã¿´Î¿ªÊ¼ÓÎÏ·¶ÁÈ¡ÎÄ¼ş£¬¸ømaxScore¸³Öµ
+		//Ã¿ï¿½Î¿ï¿½Ê¼ï¿½ï¿½Ï·ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½maxScoreï¿½ï¿½Öµ
 		readFile();
 	}
 	
 	@Override
-	//´¦Àí°´¼üÊÂ¼ş
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	public void keyPressed(KeyEvent e) {
 		
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP://ÏòÉÏ
+		case KeyEvent.VK_UP://ï¿½ï¿½ï¿½ï¿½
 			snake.chanceDirection(Snake.UP);
 			break;
-		case KeyEvent.VK_DOWN://ÏòÏÂ
+		case KeyEvent.VK_DOWN://ï¿½ï¿½ï¿½ï¿½
 			snake.chanceDirection(Snake.DOWN);
 			break;
-		case KeyEvent.VK_LEFT://Ïò×ó
+		case KeyEvent.VK_LEFT://ï¿½ï¿½ï¿½ï¿½
 			snake.chanceDirection(Snake.LEFT);
 			break;
-		case KeyEvent.VK_RIGHT://ÏòÓÒ
+		case KeyEvent.VK_RIGHT://ï¿½ï¿½ï¿½ï¿½
 			snake.chanceDirection(Snake.RIGHT);
 			break;
-		case KeyEvent.VK_SPACE://¿Õ¸ñ¼ü£¬ÊµÏÖÓÎÏ·ÔİÍ£
+		case KeyEvent.VK_SPACE://ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Í£
 			snake.changePause();
 			break;
-		case KeyEvent.VK_SHIFT://Shift¼ü£¬ÊµÏÖ¿ªÊ¼ĞÂÓÎÏ·
+		case KeyEvent.VK_SHIFT://Shiftï¿½ï¿½ï¿½ï¿½Êµï¿½Ö¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·
 			newGame();
 			break;
 		}
 	}
-   //´¦ÀíSnake ´¥·¢µÄ snakeMoved ÊÂ¼ş
+   //ï¿½ï¿½ï¿½ï¿½Snake ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ snakeMoved ï¿½Â¼ï¿½
 	@Override
 	public void snakeMove(Snake snake){
 		/*
-		 * ÅĞ¶ÏÊÇ·ñ»¹¿ÉÒÔ·ÅÏÂÊ³Îï
-		 * µ±ÉíÌåÕ¼ÂúÈ«²¿¿ÕÎ»£¬Ã»ÓĞµØ·½ÔÙ¿ÉÒÔ·ÅÊ³ÎïÊ±
-		 * ÓÎÏ·½áÊø
-		 * Global.count : È«¾ÖÓÎÏ·½çÃæ×Ü×ø±ê£¬Ä¬ÈÏ1000
-		 * this.snake.snakeBodyCount £º ÉßµÄÉíÌå×Ü³¤¶È
-		 * ground.rocksCount £º Ê¯Í·×ÜÊı
+		 * ï¿½Ğ¶ï¿½ï¿½Ç·ñ»¹¿ï¿½ï¿½Ô·ï¿½ï¿½ï¿½Ê³ï¿½ï¿½
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ã»ï¿½ĞµØ·ï¿½ï¿½Ù¿ï¿½ï¿½Ô·ï¿½Ê³ï¿½ï¿½Ê±
+		 * ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+		 * Global.count : È«ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬Ä¬ï¿½ï¿½1000
+		 * this.snake.snakeBodyCount ï¿½ï¿½ ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½
+		 * ground.rocksCount ï¿½ï¿½ Ê¯Í·ï¿½ï¿½ï¿½ï¿½
 		 * 
 		 */
-		if (Global.count - this.snake.snakeBodyCount - ground.rocksCount < 3) {
+		if (Global.count - this.snake.snakeBodyCount - ground.treesCount < 3) {
 			snake.die();
 			writeMaxScore();
-			//µ¯³öÏûÏ¢¿ò£¬ÌáÊ¾ÓÎÏ·½áÊø£¬²¢ÏÔÊ¾µÃ·Ö
-			JOptionPane.showMessageDialog(gamePanel, "ÄúÒÑ»ñµÃ×î¸ß·Ö£¬ÓÎÏ·½áÊø£¡\n       ÓÎÏ·µÃ·Ö£º"+ score);
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ã·ï¿½
+			JOptionPane.showMessageDialog(gamePanel, "ï¿½ï¿½ï¿½Ñ»ï¿½ï¿½ï¿½ï¿½ß·Ö£ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n       ï¿½ï¿½Ï·ï¿½Ã·Ö£ï¿½"+ score);
 		}
-		//Èç¹ûÉß³Ôµ½Ê³Îï£¬£¬´¦ÀíÉß³Ôµ½Ê³ÎïµÄ·½·¨£¬²¢»ñµÃĞÂµÄÊ³Îï
+		//ï¿½ï¿½ï¿½ï¿½ß³Ôµï¿½Ê³ï¿½ï£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ôµï¿½Ê³ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ê³ï¿½ï¿½
 		if (food.isSnakeEatFood(snake)) {
 			snake.eatFood();
 			food.newFood(snake.getFoodPoint());
 			this.score +=10;
 			
 		}
-		//ÅĞ¶ÏÊÇ·ñ³Ôµ½Ê¯Í·£¬Èç¹û³Ôµ½Ê¯Í·£¬ÉßËÀÍö¡£
-		if (ground.isSnakeEatRock(snake)) {
+		//ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½Ôµï¿½Ê¯Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ê¯Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if (ground.isSnakeHitTree(snake)) {
 			snake.die();
-			//Èç¹ûÓÎÏ·µÃ·Ö´óÓÚÀúÊ·¼ÇÂ¼×î¸ß·Ö£¬°Ñµ±Ç°µÃ·Ö¸³¸ø×î¸ß·Ö£¬²¢Ğ´ÈëÎÄ¼ş
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ã·Ö´ï¿½ï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½Â¼ï¿½ï¿½ß·Ö£ï¿½ï¿½Ñµï¿½Ç°ï¿½Ã·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ß·Ö£ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½
 			writeMaxScore();
-			//µ¯³öÏûÏ¢¿ò£¬ÌáÊ¾ÓÎÏ·½áÊø£¬²¢ÏÔÊ¾µÃ·Ö
-			JOptionPane.showMessageDialog(gamePanel, "Éß×²Ç½ËÀÍö£¬ÓÎÏ·½áÊø£¡\n       ÓÎÏ·µÃ·Ö£º"+ score);
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ã·ï¿½
+			JOptionPane.showMessageDialog(gamePanel, "ï¿½ï¿½×²Ç½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n       ï¿½ï¿½Ï·ï¿½Ã·Ö£ï¿½"+ score);
 		}
-		//Èç¹ûÉß³Ôµ½ÉíÌåÒ²ËÀÍö
+		//ï¿½ï¿½ï¿½ï¿½ß³Ôµï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½
 		if(snake.isEatBody()) {
 			snake.die();
 			writeMaxScore();
-			JOptionPane.showMessageDialog(gamePanel, "ÉßÒ§µ½×Ô¼ºËÀÍö£¬ÓÎÏ·½áÊø£¡\n       ÓÎÏ·µÃ·Ö£º"+ score);
+			JOptionPane.showMessageDialog(gamePanel, "ï¿½ï¿½Ò§ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n       ï¿½ï¿½Ï·ï¿½Ã·Ö£ï¿½"+ score);
 		}
-		//Èç¹ûÉßËÀÍö£¬×îºóÒ»´Î²»Ë¢ĞÂ»­Ãæ£¬Èç¹ûË¢ĞÂ£¬ÉßÍ·»áÓëÊ¯Í·ÖØµş
-		if (!(ground.isSnakeEatRock(snake) | snake.isEatBody())) {
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î²ï¿½Ë¢ï¿½Â»ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½Ë¢ï¿½Â£ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Ê¯Í·ï¿½Øµï¿½
+		if (!(ground.isSnakeHitTree(snake) | snake.isEatBody())) {
 			gamePanel.display(snake, food, ground);
 		}
 	}
-	//¿ªÊ¼ÓÎÏ·
+	//ï¿½ï¿½Ê¼ï¿½ï¿½Ï·
 	public void beginGame() {
-		//¿ªÊ¼ÓÎÏ·Ê±£¬µÃ·Ö¹éÁã
+		//ï¿½ï¿½Ê¼ï¿½ï¿½Ï·Ê±ï¿½ï¿½ï¿½Ã·Ö¹ï¿½ï¿½ï¿½
 		score = 0;
-		//Ã¿´Î¿ªÊ¼ÓÎÏ·ÊÇ¶ÁÈ¡ÎÄ¼ş£¬»ñµÃÀúÊ·×î¸ß·Ö
+		//Ã¿ï¿½Î¿ï¿½Ê¼ï¿½ï¿½Ï·ï¿½Ç¶ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½ß·ï¿½
 		readFile();
-		//»ñµÃĞÂµÄÊ³Îï×ø±ê
+		//ï¿½ï¿½ï¿½ï¿½Âµï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		food.newFood(snake.getFoodPoint());
-		//¿ªÊ¼ÉßÇı¶¯µÄÏß³Ì
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
 		snake.start();
-		//¿ªÆôÖ÷´°Ìå½çÃæË¢ĞÂµÄÏß³Ì£¬ÓÃÀ´¸üĞÂ·ÖÊı
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Âµï¿½ï¿½ß³Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½
 		new Thread(thread).start();
 	}
 	
-	//¿ªÊ¼ĞÂÓÎÏ·
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·
 	public void newGame() {
-		//¿ªÊ¼ĞÂÓÎÏ·ºó£¬Çå³ıÉßµÄÉíÌå
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½
 		snake.bodyClear();
-		//ÖØĞÂ³õÊ¼»¯Éß
+		//ï¿½ï¿½ï¿½Â³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 		snake.init();
-		//µÃ·Ö¹éÁã
+		//ï¿½Ã·Ö¹ï¿½ï¿½ï¿½
 		score = 0;
-		//»ñµÃĞÂÊ³Îï×ø±ê
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		food.newFood(snake.getFoodPoint());
 		/*
-		 * ÅĞ¶ÏÉßÊÇ·ñ´¦ÓÚËÀÍö×´Ì¬£¬Èç¹ûÊÇ£¬
-		 * ÔòÔÚÉßÇı¶¯ÖĞÒÑ¾­Ìø³öÑ­»·£¬²»»á´¥·¢ÉßµÄ¼àÌı
-		 * ´ËÊ±ÔÙ¿ªÊ¼µ÷ÓÃ¿ªÊ¼ÓÎÏ·£¬ÖØĞÂ³õÊ¼»¯ÓÎÏ·£¬ÖØĞÂ¼àÌıÉßÔË¶¯
+		 * ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á´¥ï¿½ï¿½ï¿½ßµÄ¼ï¿½ï¿½ï¿½
+		 * ï¿½ï¿½Ê±ï¿½Ù¿ï¿½Ê¼ï¿½ï¿½ï¿½Ã¿ï¿½Ê¼ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Â³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 		 * 
-		 * Èç¹ûÉß²»ÊÇËÀÍö×´Ì¬£¬Ôò²»Ö´ĞĞ¿ªÊ¼ÓÎÏ·³õÊ¼»¯£¬´ËÊ±Éß´¦ÓÚÕı³£¼àÌı×´Ì¬
-		 * Ö»ÖØĞÂ³õÊ¼»¯ÉßºÍÊ³Îï£¬·ÖÊı¼´¿É¿ªÊ¼ĞÂÓÎÏ·¡£
+		 * ï¿½ï¿½ï¿½ï¿½ß²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ¿ï¿½Ê¼ï¿½ï¿½Ï·ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
+		 * Ö»ï¿½ï¿½ï¿½Â³ï¿½Ê¼ï¿½ï¿½ï¿½ßºï¿½Ê³ï¿½ï£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½
 		 */
 		if (snake.isDie) {
 			beginGame();
@@ -158,10 +158,10 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		}
 	}
 	
-	//¶ÁÎÄ¼ş£¬»ñÈ¡ÀúÊ·×î¸ß·Ö
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ê·ï¿½ï¿½ß·ï¿½
 	public void readFile(){
 		File file = new File("MaxScore.txt");
-		//Èç¹ûÎÄ¼ş²»´æÔÚ£¬ÎÄ¼şÊä³öÁ÷»á×Ô¶¯´´½¨ÎÄ¼ş
+		//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -169,7 +169,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				e.printStackTrace();
 			}
 		}
-		//¶ÁÈ¡ÎÄ¼ş
+		//ï¿½ï¿½È¡ï¿½Ä¼ï¿½
 		BufferedReader br;
 		try {
 			br = new BufferedReader(
@@ -196,7 +196,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public void writeFile() {
 
 		File file = new File("MaxScore.txt");
-		//Èç¹ûÎÄ¼ş²»´æÔÚ£¬ÎÄ¼şÊä³öÁ÷»á×Ô¶¯´´½¨ÎÄ¼ş
+		//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -204,14 +204,14 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				e.printStackTrace();
 			}
 		}
-		//Ğ´ÎÄ¼ş
+		//Ğ´ï¿½Ä¼ï¿½
 		try {
 
 			BufferedWriter bw = new BufferedWriter(
 					new OutputStreamWriter(
 							new FileOutputStream(file), "UTF-8"));
-			bw.write(maxScore);//ÏòÎÄ¼şĞ´Èë×î¸ß·Ö
-			bw.close();//¹Ø±ÕÁ÷
+			bw.write(maxScore);//ï¿½ï¿½ï¿½Ä¼ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ß·ï¿½
+			bw.close();//ï¿½Ø±ï¿½ï¿½ï¿½
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -222,7 +222,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		}
 
 	}
-	//½ÓÊÕÖ÷´°ÌåÖĞË¢ĞÂ½çÃæµÄÏß³Ì
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
 	public Thread startRefresh(Thread thread) {
 		this.thread = thread;
 		return this.thread;
