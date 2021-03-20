@@ -1,27 +1,30 @@
 package snake.entities;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
 import snake.util.Global;
 
 @SuppressWarnings("serial")
 public class Food extends Point{
 	Point point = null;
-	//设置食物位置坐标
+	private ImageIcon food;
+
+	// set the food position
 	public void newFood(Point p) {
 		this.point = p;
 		this.setLocation(p);
 	}
-	//判断蛇是否吃到食物
+
+	// check if snake eat food 
 	public boolean isSnakeEatFood(Snake snake) {
 		return this.equals(snake.getHead());
 	}
-	//显示食物
+
 	public void drawMe(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fill3DRect(point.x * Global.CELL_SIZE, point.y * Global.CELL_SIZE,
-				Global.CELL_SIZE, Global.CELL_SIZE, true);
+        // draw the food
+		food = new ImageIcon("images/apple.png");
+		food.paintIcon(null, g, point.x * Global.CELL_SIZE, point.y * Global.CELL_SIZE);
 	}
 }
