@@ -1,63 +1,70 @@
 package snake.entities;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import snake.listener.SnakeListener;
 import snake.util.Global;
 
 public class Snake {
 	
-	//¶¨Òå·½Ïò±äÁ¿£¬ÓÃÀ´¿ØÖÆÉßµÄ·½Ïò
+	//ï¿½ï¿½ï¿½å·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµÄ·ï¿½ï¿½ï¿½
 	public static final int UP = -1;
 	public static final int DOWN = 1;
 	public static final int LEFT = 2;
 	public static final int RIGHT = -2;
 	/*
-	 *    ¶¨ÒåÒ»¸ö¾É·½Ïò£¬ºÍÐÂ·½Ïò¡£ÓÃÀ´ÔÚ¸Ä±ä·½ÏòÊ±
-	 * ÅÐ¶ÏÐÂ·½ÏòÓë¾É·½ÏòÊÇ·ñÏàÍ¬£¬Èç¹ûÏàÍ¬ÔòËµÃ÷
-	 * ÊÇÎÞÐ§·½Ïò£¬ºöÂÔ¡£Èç¹û²»Í¬·½Ïò¸Ä±ä 
+	 *    ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½É·ï¿½ï¿½ò£¬ºï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸Ä±ä·½ï¿½ï¿½Ê±
+	 * ï¿½Ð¶ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½É·ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½Ëµï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ò£¬ºï¿½ï¿½Ô¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ 
 	 */
 	private int oldDirection, newDirection;
 	 
 	Ground ground = new Ground();
-	//¶¨ÒåÒ»¸ö×ø±ê£¬ÓÃÀ´´æ·ÅÊ³Îï×ø±ê
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Point point = null;
-	//´æ·ÅÉßÉíÌå×Ü³¤¶È£¬Õ¼ÓÃ×ø±ê¸öÊý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü³ï¿½ï¿½È£ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int snakeBodyCount;
-	private Point oldTail;//´æ·ÅÎ²°ÍµÄ×ø±ê
-	private boolean life; //ÅÐ¶ÏÉßÊÇ·ñ»î×Å
-	private boolean pause; //ÉßÊÇ·ñÔÝÍ£
-	private boolean isPause; //Ã¿´Î¿ª¿ª¾ÖÉßÎªÔÝÍ£×´Ì¬
-	public boolean isDie; //ÉßÊÇ·ñËÀÍö
-	public int speed = 500; //³õÊ¼»¯ÉßËÙ¶È£º 500ms/¸ñ
+	private Point oldTail;//ï¿½ï¿½ï¿½Î²ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½
+	private boolean life; //ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ff
+	private boolean pause; //ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í£
+	private boolean isPause; //Ã¿ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Í£×´Ì¬
+	public boolean isDie; //ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
+	public int speed = 500; //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È£ï¿½ 500ms/ï¿½ï¿½
 
-	//´æ·ÅÉßÉíÌå½Úµã×ø±ê
+	// Images varialbes for the snake	
+	private ImageIcon righthead;
+	private ImageIcon lefthead;
+	private ImageIcon uphead;
+	private ImageIcon downhead;
+	private ImageIcon snakebody;
+
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½
 	private LinkedList<Point> body =
 			new LinkedList<Point>();
-	//¶¨ÒåÉß¼àÌýÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private Set<SnakeListener> listener =
 			new HashSet<SnakeListener>();
 	
-	//¹¹Ôì·½·¨£¬½øÐÐÉßµÄ³õÊ¼»¯
+	//ï¿½ï¿½ï¿½ì·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµÄ³ï¿½Ê¼ï¿½ï¿½
 	public Snake() {
 		init();
 	}
 	/*
-	 * ³õÊ¼»¯ÉßµÄÎ»ÖÃ£¬ÈÃÉßÍ·³öÏÖÔÚÓÎÏ·½çÃæÖÐÐÄ£¬
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ßµï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½
 	 */
 	public void init() {
 		int x = Global.WIDTH/ 2 - 3;
 		int y = Global.HEIGHT / 2 ;
-		//³õÊ¼»¯Éß£¬¸øÉßÌí¼ÓÈý¸ö½Úµã
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 		for(int i = 0; i < 3; i++) {
 			body.addLast(new Point(x--, y));
 		}
-		//³õÊ¼»¯·½Ïò£¬ÏòÓÒ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		oldDirection = newDirection = RIGHT;
 		life = true;
 		pause = false;
@@ -65,9 +72,9 @@ public class Snake {
 		
 	}
 	/*
-	 * ÉßÒÆ¶¯£¬ÏÈÅÐ¶ÏÐÂ¾É·½ÏòÊÇ·ñÏàÍ¬£¬ÏàÍ¬ÔòºöÂÔ
-	 * ²»Í¬£¬½øÐÐ¸Ä±ä·½Ïò¡£ÉßÒÆ¶¯£¬Í¨¹ýÌí¼ÓÒ»¸öÍ·½Úµã£¬
-	 * È¥³ýÒ»¸ö×îºóÒ»¸ö½Úµã£¬´ïµ½ÒÆ¶¯µÄÄ¿µÄ
+	 * ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Â¾É·ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Ð¸Ä±ä·½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í·ï¿½Úµã£¬
+	 * È¥ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµã£¬ï¿½ïµ½ï¿½Æ¶ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 	 */
 	public void move() {
 		if (!(oldDirection + newDirection == 0)) {
@@ -78,16 +85,16 @@ public class Snake {
 		int x = body.getFirst().x;
 		int y = body.getFirst().y;
 		switch(oldDirection) {
-		case UP: //ÏòÉÏÒÆ¶¯
+		case UP: //ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 			y--;
-			//µ½±ßÉÏÁË¿ÉÒÔ´ÓÁíÒ»±ß³öÏÖ 
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ò»ï¿½ß³ï¿½ï¿½ï¿½ 
 			if (y < 0) {
 				y = Global.HEIGHT - 1;
 			}
 			break;
 		case DOWN:
 			y++;
-			//µ½±ßÉÏÁË¿ÉÒÔ´ÓÁíÒ»±ß³öÏÖ 
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ò»ï¿½ß³ï¿½ï¿½ï¿½ 
 			if (y >= Global.HEIGHT) {
 				y = 0;
 			}
@@ -106,27 +113,27 @@ public class Snake {
 			break;
 		
 		}
-		//¼ÇÂ¼ÉßÍ·µÄ×ø±ê
+		//ï¿½ï¿½Â¼ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Point newHead = new Point(x, y);
-		//¼ÓÍ·
+		//ï¿½ï¿½Í·
 		body.addFirst(newHead);
 	}
-	//Éß¸Ä±ä·½Ïò
+	//ï¿½ß¸Ä±ä·½ï¿½ï¿½
 	public void chanceDirection(int direction) {
 		newDirection = direction;
 		
 	}
-	//Éß³ÔÊ³Îï
+	//ï¿½ß³ï¿½Ê³ï¿½ï¿½
 	public void eatFood() {
-		//Í¨¹ýÌí¼ÓÉ¾È¥µÄ×îºóµÄÎ²½Úµã£¬´ïµ½³ÔÊ³ÎïµÄÄ¿µÄ
+		//Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î²ï¿½Úµã£¬ï¿½ïµ½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 		body.addLast(oldTail);
 	
 	}
 	
-	//ÅÐ¶ÏÉßÊÇ·ñ³Ôµ½ÉíÌå
+	//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ôµï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean isEatBody() {
-		//body.get(0)´æ·ÅµÄÎªÉßÍ·µÄ×ø±ê£¬
-		//ËùÓÐÒªÅÅ³ýÉßÍ·£¬´Ói=1¿ªÊ¼±È½Ï
+		//body.get(0)ï¿½ï¿½Åµï¿½Îªï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬
+		//ï¿½ï¿½ï¿½ï¿½Òªï¿½Å³ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½i=1ï¿½ï¿½Ê¼ï¿½È½ï¿½
 		for (int i = 1; i < body.size(); i++) {
 			if (body.get(i).equals(getHead())) {
 				return true;
@@ -136,88 +143,103 @@ public class Snake {
 	}
 	
 	 /**
-     * »ñÈ¡ÉßµÄsnakeBodyÁ´±í£¬ÈÃÊ³ÎïÓëÉßÉí²»ÖØµþ
-     *        body    ±íÊ¾ÉßÉíÌåµÄÁ´±í
-     * ·µ»ØÓëÉßÉíÌå×ø±ê²»ÖØ¸´µÄ×ø±ê
+     * ï¿½ï¿½È¡ï¿½ßµï¿½snakeBodyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½
+     *        body    ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê²»ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public Point getFood(LinkedList<Point> body) {
-    	//»ñµÃÓëÊ¯Í·²»ÖØµþµÄ×ø±ê
+    	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¯Í·ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     	point = ground.getPoint();
         while (checkPoints(body)) {
         	point = ground.getPoint();
         }
-        // Èç¹û·¢ÏÖÊ³ÎïµÄÎ»ÖÃºÍÉßÉíÌåÖØµþ£¬ÔòÖØÐÂËæ»úÊ³ÎïµÄÎ»ÖÃ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½Î»ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½Î»ï¿½ï¿½
         return point;
-        // ·µ»ØÕâ¸ö¶ÔÏó±¾Éí£¬Îª´´½¨ÊµÀýÊ±´øÀ´·½±ã
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
-    //»ñµÃÊ³Îï×ø±ê
+    //ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Point getFoodPoint() {
 		return getFood(body);
 	}
 
     /**
-     * ¼ì²éÉßÉíÌåÁ´±íÖÐÊÇ·ñÓÐÒ»¿éÓëµ±Ç°Ê³Îï×ø±êÏàÍ¬
-     * @return Èç¹ûÓÐÖØ¸´·µ»Øtrue
-     * ·ñÔò·µ»Ø false
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ëµ±Ç°Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
+     * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½true
+     * ï¿½ï¿½ï¿½ò·µ»ï¿½ false
      */
     public boolean checkPoints(LinkedList<Point> body) {
     	
         for (Point p : body)
             if (p.getX() == point.getX() && p.getY() == point.getY())
                 return true;
-        // Ñ­»·±éÀúÊÇ·ñÓÐÖØ¸´
+        // Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½
         return false;
     }
 
 
-	//»­Éß
+	// drawMe
 	public void drawMe(Graphics g) {
+		// draw the snake body
 		for(Point p : body) {
-			g.setColor(Color.PINK);//ÉèÖÃÉíÌåÑÕÉ«
-			g.fill3DRect(p.x * Global.CELL_SIZE, p.y * Global.CELL_SIZE,
-					Global.CELL_SIZE, Global.CELL_SIZE, true);
-			//×îºóÒ»¸ö²ÎÊý£¬raised ÊÇ·ñÍ¹ÆðµÄ£¬trueÎªÊÇ¡£
+			snakebody = new ImageIcon("images/snakebody.png");
+		    snakebody.paintIcon(null, g, p.x * Global.CELL_SIZE, p.y * Global.CELL_SIZE);
 		}
-		//»­ÉßÍ·£¬¸²¸ÇÉßÍ·Î»ÖÃ
-		g.setColor(Color.RED);
-		g.fill3DRect(getHead().x * Global.CELL_SIZE, getHead().y * Global.CELL_SIZE,
-				Global.CELL_SIZE, Global.CELL_SIZE, true);
+		// draw the head according to the direction
+		if (oldDirection == RIGHT) {
+			righthead = new ImageIcon("images/righthead.png");
+			righthead.paintIcon(null, g, getHead().x * Global.CELL_SIZE, getHead().y * Global.CELL_SIZE);
+		}
+
+		if (oldDirection == LEFT) {
+			lefthead = new ImageIcon("images/lefthead.png");
+			lefthead.paintIcon(null, g, getHead().x * Global.CELL_SIZE, getHead().y * Global.CELL_SIZE);
+		}
+
+		if (oldDirection == UP) {
+			uphead = new ImageIcon("images/uphead.png");
+			uphead.paintIcon(null, g, getHead().x * Global.CELL_SIZE, getHead().y * Global.CELL_SIZE);
+		}
+
+		if (oldDirection == DOWN) {
+			downhead = new ImageIcon("images/downhead.png");
+			downhead.paintIcon(null, g, getHead().x * Global.CELL_SIZE, getHead().y * Global.CELL_SIZE);
+		}
 	}
 	
-	//»ñµÃÉßÍ·µÄ×ø±ê
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Point getHead() {
 		return body.getFirst();
 	}
-	//ÉßËÀÍö£¬ÉúÃü¸ÄÎªfalse
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªfalse
 	public void die() {
 		life = false;
 		isDie = true;
 		
 	}
 	
-	//Ò»¸öÄÚ²¿Àà, Çý¶¯Éß¶¨Ê±ÒÆ¶¯
+	//Ò»ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½Ê±ï¿½Æ¶ï¿½
 	public class SnakerDriver implements Runnable{
 		
 		public void run() {
-			//µ±Éß»î×ÅµÄÊ±ºò²Å½øÐÐÑ­»·
+			//ï¿½ï¿½ï¿½ß»ï¿½ï¿½Åµï¿½Ê±ï¿½ï¿½Å½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 			while(life) {
-				//Èë»ïÉßÃ»ÓÐÔÝÍ£²ÅÄÜÒÆ¶¯
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 				if (!pause) {
 					move();
-					//ÉßÃ¿´ÎÒÆ¶¯ºó£¬»ñµÃÉßÉíÌå×Ü³¤¶È
+					//ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ó£¬»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½
 					getSnakeBodyCount();
-					//´¥·¢ SnakeListener µÄ×´Ì¬¸Ä±äÊÂ¼þ
+					//ï¿½ï¿½ï¿½ï¿½ SnakeListener ï¿½ï¿½×´Ì¬ï¿½Ä±ï¿½ï¿½Â¼ï¿½
 					for(SnakeListener l : listener) {
 						l.snakeMove(Snake.this);
 					}
-					//ÈÃÉß¿ª¿ªÊ¼Ê±ÎªÔÝÍ£×´Ì¬
+					//ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½Ê¼Ê±Îªï¿½ï¿½Í£×´Ì¬
 					if (isPause) {
 						pause = true;
 						isPause = false;
 					}
 				}
 				try {
-					//¶¨Ê±ÒÆ¶¯
+					//ï¿½ï¿½Ê±ï¿½Æ¶ï¿½
 					Thread.sleep(speed);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -226,12 +248,12 @@ public class Snake {
 		}
 	}
 	
-	//ÈÃÉß¿ªÊ¼ÔË¶¯£¬ ¿ªÆôÒ»¸öÐÂµÄÏß³Ì
+	//ï¿½ï¿½ï¿½ß¿ï¿½Ê¼ï¿½Ë¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½ï¿½ß³ï¿½
 	public void start() {
 		new Thread(new SnakerDriver()).start();
 	}
 	
-	//Ìí¼Ó¼àÌýÆ÷
+	//ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void addSnakeListener(SnakeListener l) {
 		if(l != null) {
 			this.listener.add(l);
@@ -241,11 +263,11 @@ public class Snake {
 	public void getSnakeBodyCount() {
 		snakeBodyCount = body.size();
 	}
-	//¸Ä±äÉßÔÝÍ£×´Ì¬
+	//ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Í£×´Ì¬
 	public void changePause() {
 		pause = !pause;
 	}
-	//Çå³ýÉíÌåËùÓÐ½Úµã
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½Úµï¿½
 	public void bodyClear() {
 		body.clear();
 	}
