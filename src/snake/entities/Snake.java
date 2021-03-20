@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
+
 import snake.listener.SnakeListener;
 import snake.util.Global;
 
@@ -18,7 +19,7 @@ public class Snake {
 	public static final int LEFT = 2;
 	public static final int RIGHT = -2;
 	/*
-     * 定义一个旧方向，和新方向。用来在改变方向时
+	 *    定义一个旧方向，和新方向。用来在改变方向时
 	 * 判断新方向与旧方向是否相同，如果相同则说明
 	 * 是无效方向，忽略。如果不同方向改变 
 	 */
@@ -33,6 +34,7 @@ public class Snake {
 	private boolean life; //判断蛇是否活着
 	private boolean pause; //蛇是否暂停
 	private boolean isPause; //每次开开局蛇为暂停状态
+	private int INCREASE_SPEED = 10; // speed increase for every food that the snake eats
 	public boolean isDie; //蛇是否死亡
 	public int speed = 500; //初始化蛇速度： 500ms/格
 
@@ -42,7 +44,6 @@ public class Snake {
 	private ImageIcon uphead;
 	private ImageIcon downhead;
 	private ImageIcon snakebody;
-
 	//存放蛇身体节点坐标
 	private LinkedList<Point> body =
 			new LinkedList<Point>();
@@ -87,7 +88,7 @@ public class Snake {
 		switch(oldDirection) {
 		case UP: //向上移动
 			y--;
-			//到边上了可以从另一边出现
+			//到边上了可以从另一边出现 
 			if (y < 0) {
 				y = Global.HEIGHT - 1;
 			}
@@ -127,12 +128,12 @@ public class Snake {
 	public void eatFood() {
 		//通过添加删去的最后的尾节点，达到吃食物的目的
 		body.addLast(oldTail);
-	
+		speed -= INCREASE_SPEED;
 	}
 	
 	//判断蛇是否吃到身体
 	public boolean isEatBody() {
-		//body.get(0)存放的为蛇头的坐标
+		//body.get(0)存放的为蛇头的坐标，
 		//所有要排除蛇头，从i=1开始比较
 		for (int i = 1; i < body.size(); i++) {
 			if (body.get(i).equals(getHead())) {
@@ -143,7 +144,7 @@ public class Snake {
 	}
 	
 	 /**
-     *  获取蛇的snakeBody链表，让食物与蛇身不重叠
+     * 获取蛇的snakeBody链表，让食物与蛇身不重叠
      *        body    表示蛇身体的链表
      * 返回与蛇身体坐标不重复的坐标
      */
@@ -177,9 +178,8 @@ public class Snake {
     }
 
 
-	// drawMe
+	//画蛇
 	public void drawMe(Graphics g) {
-		// draw the snake body
 		for(Point p : body) {
 			snakebody = new ImageIcon("images/snakebody.png");
 		    snakebody.paintIcon(null, g, p.x * Global.CELL_SIZE, p.y * Global.CELL_SIZE);
@@ -223,7 +223,7 @@ public class Snake {
 		public void run() {
 			//当蛇活着的时候才进行循环
 			while(life) {
-				//蛇每次移动后，获得蛇身体总长度
+				//入伙蛇没有暂停才能移动
 				if (!pause) {
 					move();
 					//蛇每次移动后，获得蛇身体总长度
