@@ -12,29 +12,29 @@ import snake.util.Global;
 
 public class Snake {
 	
-	//���巽����������������ߵķ���
+	//定义方向变量，用来控制蛇的方向
 	public static final int UP = -1;
 	public static final int DOWN = 1;
 	public static final int LEFT = 2;
 	public static final int RIGHT = -2;
 	/*
-	 *    ����һ���ɷ��򣬺��·��������ڸı䷽��ʱ
-	 * �ж��·�����ɷ����Ƿ���ͬ�������ͬ��˵��
-	 * ����Ч���򣬺��ԡ������ͬ����ı� 
+     * 定义一个旧方向，和新方向。用来在改变方向时
+	 * 判断新方向与旧方向是否相同，如果相同则说明
+	 * 是无效方向，忽略。如果不同方向改变 
 	 */
 	private int oldDirection, newDirection;
 	 
 	Ground ground = new Ground();
-	//����һ�����꣬�������ʳ������
+	//定义一个坐标，用来存放食物坐标
 	public Point point = null;
-	//����������ܳ��ȣ�ռ���������
+	//存放蛇身体总长度，占用坐标个数
 	public int snakeBodyCount;
-	private Point oldTail;//���β�͵�����
-	private boolean life; //�ж����Ƿ����ff
-	private boolean pause; //���Ƿ���ͣ
-	private boolean isPause; //ÿ�ο�������Ϊ��ͣ״̬
-	public boolean isDie; //���Ƿ�����
-	public int speed = 500; //��ʼ�����ٶȣ� 500ms/��
+	private Point oldTail;//存放尾巴的坐标
+	private boolean life; //判断蛇是否活着
+	private boolean pause; //蛇是否暂停
+	private boolean isPause; //每次开开局蛇为暂停状态
+	public boolean isDie; //蛇是否死亡
+	public int speed = 500; //初始化蛇速度： 500ms/格
 
 	// Images varialbes for the snake	
 	private ImageIcon righthead;
@@ -43,28 +43,28 @@ public class Snake {
 	private ImageIcon downhead;
 	private ImageIcon snakebody;
 
-	//���������ڵ�����
+	//存放蛇身体节点坐标
 	private LinkedList<Point> body =
 			new LinkedList<Point>();
-	//�����߼����б�
+	//定义蛇监听列表
 	private Set<SnakeListener> listener =
 			new HashSet<SnakeListener>();
 	
-	//���췽���������ߵĳ�ʼ��
+	//构造方法，进行蛇的初始化
 	public Snake() {
 		init();
 	}
 	/*
-	 * ��ʼ���ߵ�λ�ã�����ͷ��������Ϸ�������ģ�
+	 * 初始化蛇的位置，让蛇头出现在游戏界面中心，
 	 */
 	public void init() {
 		int x = Global.WIDTH/ 2 - 3;
 		int y = Global.HEIGHT / 2 ;
-		//��ʼ���ߣ��������������ڵ�
+		//初始化蛇，给蛇添加三个节点
 		for(int i = 0; i < 3; i++) {
 			body.addLast(new Point(x--, y));
 		}
-		//��ʼ����������
+		//初始化方向，向右
 		oldDirection = newDirection = RIGHT;
 		life = true;
 		pause = false;
@@ -72,29 +72,29 @@ public class Snake {
 		
 	}
 	/*
-	 * ���ƶ������ж��¾ɷ����Ƿ���ͬ����ͬ�����
-	 * ��ͬ�����иı䷽�����ƶ���ͨ������һ��ͷ�ڵ㣬
-	 * ȥ��һ�����һ���ڵ㣬�ﵽ�ƶ���Ŀ��
+	 * 蛇移动，先判断新旧方向是否相同，相同则忽略
+	 * 不同，进行改变方向。蛇移动，通过添加一个头节点，
+	 * 去除一个最后一个节点，达到移动的目的
 	 */
 	public void move() {
 		if (!(oldDirection + newDirection == 0)) {
 			oldDirection = newDirection;
 		}
-		//ȥβ
+		//去尾
 		oldTail = body.removeLast();
 		int x = body.getFirst().x;
 		int y = body.getFirst().y;
 		switch(oldDirection) {
-		case UP: //�����ƶ�
+		case UP: //向上移动
 			y--;
-			//�������˿��Դ���һ�߳��� 
+			//到边上了可以从另一边出现
 			if (y < 0) {
 				y = Global.HEIGHT - 1;
 			}
 			break;
 		case DOWN:
 			y++;
-			//�������˿��Դ���һ�߳��� 
+			//到边上了可以从另一边出现 
 			if (y >= Global.HEIGHT) {
 				y = 0;
 			}
@@ -113,27 +113,27 @@ public class Snake {
 			break;
 		
 		}
-		//��¼��ͷ������
+		//记录蛇头的坐标
 		Point newHead = new Point(x, y);
-		//��ͷ
+		//加头
 		body.addFirst(newHead);
 	}
-	//�߸ı䷽��
+	//蛇改变方向
 	public void chanceDirection(int direction) {
 		newDirection = direction;
 		
 	}
-	//�߳�ʳ��
+	//蛇吃食物
 	public void eatFood() {
-		//ͨ������ɾȥ������β�ڵ㣬�ﵽ��ʳ���Ŀ��
+		//通过添加删去的最后的尾节点，达到吃食物的目的
 		body.addLast(oldTail);
 	
 	}
 	
-	//�ж����Ƿ�Ե�����
+	//判断蛇是否吃到身体
 	public boolean isEatBody() {
-		//body.get(0)��ŵ�Ϊ��ͷ�����꣬
-		//����Ҫ�ų���ͷ����i=1��ʼ�Ƚ�
+		//body.get(0)存放的为蛇头的坐标
+		//所有要排除蛇头，从i=1开始比较
 		for (int i = 1; i < body.size(); i++) {
 			if (body.get(i).equals(getHead())) {
 				return true;
@@ -143,36 +143,36 @@ public class Snake {
 	}
 	
 	 /**
-     * ��ȡ�ߵ�snakeBody��������ʳ�����������ص�
-     *        body    ��ʾ�����������
-     * ���������������겻�ظ�������
+     *  获取蛇的snakeBody链表，让食物与蛇身不重叠
+     *        body    表示蛇身体的链表
+     * 返回与蛇身体坐标不重复的坐标
      */
     public Point getFood(LinkedList<Point> body) {
-    	//�����ʯͷ���ص�������
+    	//获得与石头不重叠的坐标
     	point = ground.getPoint();
         while (checkPoints(body)) {
         	point = ground.getPoint();
         }
-        // �������ʳ���λ�ú��������ص������������ʳ���λ��
+        // 如果发现食物的位置和蛇身体重叠，则重新随机食物的位置
         return point;
-        // ���������������Ϊ����ʵ��ʱ��������
+        // 返回这个对象本身，为创建实例时带来方便
     }
-    //���ʳ������
+    //获得食物坐标
     public Point getFoodPoint() {
 		return getFood(body);
 	}
 
     /**
-     * ����������������Ƿ���һ���뵱ǰʳ��������ͬ
-     * @return ������ظ�����true
-     * ���򷵻� false
+     * 检查蛇身体链表中是否有一块与当前食物坐标相同
+     * @return 如果有重复返回true
+     * 否则返回 false
      */
     public boolean checkPoints(LinkedList<Point> body) {
     	
         for (Point p : body)
             if (p.getX() == point.getX() && p.getY() == point.getY())
                 return true;
-        // ѭ�������Ƿ����ظ�
+        // 循环遍历是否有重复
         return false;
     }
 
@@ -206,40 +206,40 @@ public class Snake {
 		}
 	}
 	
-	//�����ͷ������
+	//获得蛇头的坐标
 	public Point getHead() {
 		return body.getFirst();
 	}
-	//��������������Ϊfalse
+	//蛇死亡，生命改为false
 	public void die() {
 		life = false;
 		isDie = true;
 		
 	}
 	
-	//һ���ڲ���, �����߶�ʱ�ƶ�
+	//一个内部类, 驱动蛇定时移动
 	public class SnakerDriver implements Runnable{
 		
 		public void run() {
-			//���߻��ŵ�ʱ��Ž���ѭ��
+			//当蛇活着的时候才进行循环
 			while(life) {
-				//�����û����ͣ�����ƶ�
+				//蛇每次移动后，获得蛇身体总长度
 				if (!pause) {
 					move();
-					//��ÿ���ƶ��󣬻���������ܳ���
+					//蛇每次移动后，获得蛇身体总长度
 					getSnakeBodyCount();
-					//���� SnakeListener ��״̬�ı��¼�
+					//触发 SnakeListener 的状态改变事件
 					for(SnakeListener l : listener) {
 						l.snakeMove(Snake.this);
 					}
-					//���߿���ʼʱΪ��ͣ״̬
+					//让蛇开开始时为暂停状态
 					if (isPause) {
 						pause = true;
 						isPause = false;
 					}
 				}
 				try {
-					//��ʱ�ƶ�
+					//定时移动
 					Thread.sleep(speed);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -248,12 +248,12 @@ public class Snake {
 		}
 	}
 	
-	//���߿�ʼ�˶��� ����һ���µ��߳�
+	//让蛇开始运动， 开启一个新的线程
 	public void start() {
 		new Thread(new SnakerDriver()).start();
 	}
 	
-	//���Ӽ�����
+	//添加监听器
 	public void addSnakeListener(SnakeListener l) {
 		if(l != null) {
 			this.listener.add(l);
@@ -263,11 +263,11 @@ public class Snake {
 	public void getSnakeBodyCount() {
 		snakeBodyCount = body.size();
 	}
-	//�ı�����ͣ״̬
+	//改变蛇暂停状态
 	public void changePause() {
 		pause = !pause;
 	}
-	//����������нڵ�
+	//清除身体所有节点
 	public void bodyClear() {
 		body.clear();
 	}

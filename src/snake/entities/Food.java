@@ -11,11 +11,13 @@ public class Food extends Point{
 	Point point = null;
 	private ImageIcon food;
 
+	// set the food position
 	public void newFood(Point p) {
 		this.point = p;
 		this.setLocation(p);
 	}
 
+	// check if snake eat food 
 	public boolean isSnakeEatFood(Snake snake) {
 		return this.equals(snake.getHead());
 	}
