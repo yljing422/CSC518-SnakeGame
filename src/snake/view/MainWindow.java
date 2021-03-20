@@ -551,6 +551,7 @@ public class MainWindow extends JFrame{
 			//当蛇活着的时候才进行循环
 			while(!snake.isDie) {
 				txt_score.setText(controller.score + " 分");
+				txt_speed.setText(snake.speed + " 毫秒 / 格");
 				txt_maxScore.setText(controller.maxScore + " 分");
 				try {
 					Thread.sleep(snake.speed);

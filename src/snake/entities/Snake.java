@@ -33,8 +33,10 @@ public class Snake {
 	private boolean life; //判断蛇是否活着
 	private boolean pause; //蛇是否暂停
 	private boolean isPause; //每次开开局蛇为暂停状态
+	private int INCREASE_SPEED = 10; // speed increase for every food that the snake eats
 	public boolean isDie; //蛇是否死亡
 	public int speed = 500; //初始化蛇速度： 500ms/格
+
 
 	//存放蛇身体节点坐标
 	private LinkedList<Point> body =
@@ -120,7 +122,7 @@ public class Snake {
 	public void eatFood() {
 		//通过添加删去的最后的尾节点，达到吃食物的目的
 		body.addLast(oldTail);
-	
+		speed -= INCREASE_SPEED;
 	}
 	
 	//判断蛇是否吃到身体
