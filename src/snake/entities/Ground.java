@@ -9,53 +9,53 @@ import snake.util.Global;
 
 public class Ground {
 	/*
-	*定义存放石头坐标的数组，1为石头，0为空白区域。 
-	*一定要用全局静态变量，始终占用空间。否则会在产生食物时出错
+	*Define the array for storing the stone coordinates, 1 is the stone, 0 is the blank area
+	*Be sure to use global static variables to always take up space. Otherwise it will make mistakes when producing food
     */
 	private static final int rocks[][] =
 			new int[Global.WIDTH][Global.HEIGHT];
-	//存放石头的个数
+	//The number of stored trees
 	public int rocksCount = 0;
-	//是否画网格
+	//Whether to draw a grid
 	private boolean isDrawGriding;
-	//选择地图是使用
+	//Choose map to use
 	public int MAP = 1;
-	//构造方法，初始化地图
+	//Constructor, initialize the map
 	public Ground() {
 		init();
 	}
-	//清除所有石头
+	//Clear all trees
 	public void clear() {
 		for (int x = 0; x < Global.WIDTH; x++)
 			for (int y = 0; y < Global.HEIGHT; y++)
 				rocks[x][y] = 0;
 	}
-	//初始化石头位置
+	//Initialize the tree position
 	public void init() {
-		//清除所有石头
+		//Clear all trees
 		clear();
-		//选择地图
+		//Select map
 		switch(MAP) {
 		case 1:
-			map1(); //地图1
-			//获得石头个数
+			map1(); //map1
+			//Get the number of stones
 			getScoksCount();
 			break;
 		case 2:
-			map2(); //地图2
+			map2(); //map2
 			getScoksCount();
 			break;
 		case 3:
-			map3(); //随机地图
+			map3(); //Random map
 			getScoksCount();
 			break;
 		default :
-			map1(); //默认地图1
+			map1(); //Default map 1
 			getScoksCount();
 			break;
 		}
 	}
-	//第一组默认地图石头坐标
+	//The first set of default map tree coordinates
 	public void map1() {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			rocks[x][0] = 1;
@@ -66,7 +66,7 @@ public class Ground {
 			rocks[Global.WIDTH-1][y]  = 1;
 		}
 	}
-	//第二个地图
+	//Second map
 	public void map2() {
 		for(int x = 5; x < Global.WIDTH-5; x++) {
 			rocks[x][5] = 1;
@@ -77,7 +77,7 @@ public class Ground {
 			rocks[Global.WIDTH-9][y] = 1;
 		}
 	}
-	//随机地图，随机获得40个坐标座位石头
+	//Random map, get 40 coordinate seat trees randomly
 	public void map3() {
 		Random random = new Random();
 		int x = 0,y = 0;
@@ -88,9 +88,9 @@ public class Ground {
 		}
 	}
 	
-	//获得石头总共数目
+	//Get the total number of trees
 	public void getScoksCount() {
-		//每次更换地图时清零，重新获得
+		//Cleared every time the map is changed, regained
 		rocksCount = 0;
 		for (int x = 0; x < Global.WIDTH; x++)
 			for (int y = 0; y < Global.HEIGHT; y++)
@@ -98,8 +98,9 @@ public class Ground {
 					rocksCount++;
 				}
 	}
-	//判断蛇是否吃到石头
-	//把蛇的所有节点与石头坐标进行比较如果想等则证明吃到石头
+	//Judge whether the snake has eaten the tree
+	//
+	//Compare all the nodes of the snake with the coordinates of the stone. If you want to wait, it will prove that you have eaten the tree.
 	public boolean isSnakeEatRock(Snake snake) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
@@ -112,7 +113,7 @@ public class Ground {
 		}
 		return false;
 	}
-	//获得不会与石头重叠的随机坐标
+	//Get random coordinates that will not overlap with the tree
 	public Point getPoint() {
 		Random random = new Random();
 		int x = 0, y = 0;
@@ -122,14 +123,14 @@ public class Ground {
 		}while(rocks[x][y] == 1);
 		return new Point(x, y);
 	}
-	//画石头和网格
+	//Painting trees and grids
 	public void drawMe(Graphics g) {
 		drawRocks(g);
 		if (isDrawGriding) {
 			drawGriding(g);
 		}
 	}
-	//画石头
+	//Place tree
 	public void drawRocks(Graphics g) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
@@ -141,7 +142,7 @@ public class Ground {
 			}
 		}
 	}
-	//画网格
+	//Draw grid
 	public void drawGriding(Graphics g) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
@@ -154,11 +155,11 @@ public class Ground {
 			}
 		}
 	}
-	//需要要画网格
+	//Need to draw grid
 	public void drawGriding() {
 		isDrawGriding = true;
 	}
-	//不需要画网格
+	//No need to draw grid
 	public void notDrawGriding() {
 		isDrawGriding = false;
 	}
