@@ -53,7 +53,7 @@ public class MainWindow extends JFrame{
 	
 	public MainWindow() {
 		setResizable(false);
-		setTitle("\u8D2A\u5403\u86C7");
+		setTitle("Snake Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//Center the form
 		setLocation(getToolkit().getScreenSize().width / 2 - Global.CELL_SIZE * Global.WIDTH / 2,
