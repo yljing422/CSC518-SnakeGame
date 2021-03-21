@@ -9,25 +9,25 @@ import snake.entities.Food;
 import snake.entities.Ground;
 import snake.entities.Snake;
 import snake.util.Global;
-//游戏的显示界面
+//The display interface of the game
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel{
 	
 	private Snake snake;
 	private Food food;
 	private Ground ground;
-	//显示画面
+	//Display screen
 	public void display(Snake snake, Food food, Ground ground) {
 		this.snake = snake;
 		this.food = food;
-		this.ground = ground;		
-		//会重新显示，此方法会调用下面的方法
+		this.ground = ground;
+		//Will be redisplayed, this method will call the following method
 		this.repaint();
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
-		//重新显示
-		//设置背景颜色
+		//Redisplay
+		//Set background color
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, Global.WIDTH * Global.CELL_SIZE, 
 				Global.HEIGHT * Global.CELL_SIZE);

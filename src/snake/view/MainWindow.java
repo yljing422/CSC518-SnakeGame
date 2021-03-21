@@ -29,9 +29,9 @@ import snake.entities.Ground;
 import snake.entities.Snake;
 import snake.util.Global;
 /*
- * 这些代码基本都在窗体直接涉及而成，所有代码基本可以忽略不看。
- * 只看有注释的关键地方即可。
- * 在设计中，除了让GamePanel获得焦点，其他组件都不能获得焦点。
+ * These codes are basically directly involved in the form, and all the codes can basically be ignored.
+ * Just look at the key places with annotations
+ * In the design, except for the GamePanel to get the focus, other components can not get the focus
  */
 
 @SuppressWarnings("serial")
@@ -55,7 +55,7 @@ public class MainWindow extends JFrame{
 		setResizable(false);
 		setTitle("\u8D2A\u5403\u86C7");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//让窗体居中
+		//Center the form
 		setLocation(getToolkit().getScreenSize().width / 2 - Global.CELL_SIZE * Global.WIDTH / 2,
 				getToolkit().getScreenSize().height / 2 - Global.CELL_SIZE * Global.WIDTH / 2);
  
@@ -159,7 +159,7 @@ public class MainWindow extends JFrame{
 					.addContainerGap())
 		);
 		
-		JLabel lable_score = new JLabel("\u5F53\u524D\u5F97\u5206\uFF1A");
+		JLabel lable_score = new JLabel("Current score:");
 		lable_score.setFocusable(false);
 		lable_score.setHorizontalAlignment(SwingConstants.LEFT);
 		lable_score.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -168,25 +168,25 @@ public class MainWindow extends JFrame{
 		
 		
 		txt_score = new JTextField();
-		txt_score.setText("0 分");
+		txt_score.setText("0");
 		txt_score.setEditable(false);
 		txt_score.setFocusable(false);
 		txt_score.setColumns(10);
 		
-		JLabel label_maxScore = new JLabel("\u5386\u53F2\u6700\u9AD8\u5206\uFF1A");
+		JLabel label_maxScore = new JLabel("Highest score in history:");
 		label_maxScore.setFocusable(false);
 		
 		txt_maxScore = new JTextField();
-		txt_maxScore.setText(controller.maxScore + " 分");
+		txt_maxScore.setText(controller.maxScore + "");
 		txt_maxScore.setEditable(false);
 		txt_maxScore.setFocusable(false);
 		txt_maxScore.setColumns(10);
 		
-		JLabel label_speed = new JLabel("\u5F53\u524D\u901F\u5EA6\uFF1A");
+		JLabel label_speed = new JLabel("Current speed:");
 		label_speed.setFocusable(false);
 		
 		txt_speed = new JTextField();
-		txt_speed.setText(snake.speed + " 毫秒 / 格");
+		txt_speed.setText(snake.speed + "ms / grid");
 		txt_speed.setEditable(false);
 		txt_speed.setFocusable(false);
 		lable_score.setLabelFor(txt_speed);
@@ -239,12 +239,12 @@ public class MainWindow extends JFrame{
 		);
 		panel_display.setLayout(gl_panel_display);
 		
-		JLabel label_set = new JLabel("\u8BBE\u7F6E\u9879\uFF1A");
+		JLabel label_set = new JLabel("Setting items:");
 		label_set.setFocusable(false);
 		
 		JSeparator separator = new JSeparator();
 		
-		JCheckBox checkBox_isGriding = new JCheckBox("\u663E\u793A\u7F51\u683C");
+		JCheckBox checkBox_isGriding = new JCheckBox("Show grid");
 		
 		checkBox_isGriding.addMouseListener(new MouseAdapter() {
 			@Override
@@ -261,7 +261,7 @@ public class MainWindow extends JFrame{
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel label_isGriding = new JLabel("\u662F\u5426\u663E\u793A\u7F51\u683C\uFF1A");
+		JLabel label_isGriding = new JLabel("Whether to display the grid:");
 		label_isGriding.setFocusable(false);
 		
 		JSeparator separator_2 = new JSeparator();
@@ -333,36 +333,36 @@ public class MainWindow extends JFrame{
 					.addGap(14))
 		);
 		
-		JLabel label_5 = new JLabel("\u9009\u62E9\u96BE\u5EA6\uFF1A");
+		JLabel label_5 = new JLabel("Choose difficulty:");
 		label_5.setFocusable(false);
 		
-		JRadioButton radioButton_speed1 = new JRadioButton("\u521D\u7EA7");
+		JRadioButton radioButton_speed1 = new JRadioButton("Easy");
 		radioButton_speed1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					snake.speed = 500;
-					txt_speed.setText(snake.speed + " 毫秒 / 格");
+					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
 		radioButton_speed1.setSelected(true);
 		radioButton_speed1.setFocusable(false);
 		
-		JRadioButton radioButton_speed2 = new JRadioButton("\u4E2D\u7EA7");
+		JRadioButton radioButton_speed2 = new JRadioButton("Medium");
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					snake.speed = 300;
-					txt_speed.setText(snake.speed + " 毫秒 / 格");
+					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
 		radioButton_speed2.setFocusable(false);
 		
-		JRadioButton radioButton_speed3 = new JRadioButton("\u9AD8\u7EA7");
+		JRadioButton radioButton_speed3 = new JRadioButton("Hard");
 		radioButton_speed3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					snake.speed = 100;
-					txt_speed.setText(snake.speed + " 毫秒 / 格");
+					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
 		radioButton_speed3.setFocusable(false);
@@ -379,10 +379,10 @@ public class MainWindow extends JFrame{
 		panel_setSpeed.add(radioButton_speed3);
 		
 		
-		JLabel label_setMap = new JLabel("\u9009\u62E9\u5730\u56FE\uFF1A");
+		JLabel label_setMap = new JLabel("Choose a map:");
 		label_setMap.setFocusable(false);
 		
-		JRadioButton radioButton_map1 = new JRadioButton("\u5730\u56FE1");
+		JRadioButton radioButton_map1 = new JRadioButton("Map1");
 	
 		radioButton_map1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -395,19 +395,19 @@ public class MainWindow extends JFrame{
 		
 		radioButton_map1.setFocusable(false);
 		
-		JRadioButton radioButton_map2 = new JRadioButton("\u5730\u56FE2");
+		JRadioButton radioButton_map2 = new JRadioButton("Map2");
 		radioButton_map2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//点击鼠标后，设置为地图2
+				//After clicking the mouse, set to map 2
 				ground.MAP = 2;
-				//重新初始化地图
+				//Reinitialize the map
 				ground.init();
 			}
 		});
 		radioButton_map2.setFocusable(false);
 		
-		JRadioButton radioButton_map3 = new JRadioButton("\u968F\u673A\u5730\u56FE");
+		JRadioButton radioButton_map3 = new JRadioButton("Add trees");
 		radioButton_map3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -429,7 +429,7 @@ public class MainWindow extends JFrame{
 		panel_setMap.add(radioButton_map3);
 		panel_set.setLayout(gl_panel_set);
 		
-		JButton button_pause = new JButton("\u5F00\u59CB/\u6682\u505C");
+		JButton button_pause = new JButton("Start/Pause");
 		button_pause.setFocusable(false);
 		button_pause.addMouseListener(new MouseAdapter() {
 			@Override
@@ -438,8 +438,8 @@ public class MainWindow extends JFrame{
 			}
 		});
 		button_pause.setFocusPainted(false);
-		
-		JButton button_newGame = new JButton("\u5F00\u59CB\u65B0\u6E38\u620F");
+
+		JButton button_newGame = new JButton("Start a new game");
 		button_newGame.setFocusable(false);
 		button_newGame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -474,22 +474,21 @@ public class MainWindow extends JFrame{
 		);
 		panel_control.setLayout(gl_panel_control);
 		
-		JLabel lblNewLabel = new JLabel("\u8BF4\u660E\uFF1A");
+		JLabel lblNewLabel = new JLabel("Description:");
 		lblNewLabel.setFocusable(false);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		
-		JLabel label = new JLabel("\u65B9\u5411\u952E\u64CD\u4F5C\u65B9\u5411");
+		JLabel label = new JLabel("Direction of arrow keys");
 		label.setFocusable(false);
 		
-		JLabel label_1 = new JLabel("\u7A7A\u683C\u952E\u53EF\u5B9E\u73B0\u6682\u505C/\u7EE7\u7EED");
+		JLabel label_1 = new JLabel("Space bar can realize pause/continue");
 		label_1.setFocusable(false);
 		
-		JLabel lblShift = new JLabel("Shift\u952E \u5F00\u59CB\u65B0\u6E38\u620F");
+		JLabel lblShift = new JLabel("Shift key to start a new game");
 		lblShift.setFocusable(false);
 		
-		JLabel label_2 = new JLabel("\u968F\u673A\u5730\u56FE\u4F1A"
-				+ "\u968F\u673A\u83B7\u5F9740\u4E2A\u5750\u6807\u4F5C\u4E3A\u77F3\u5934");
+		JLabel label_2 = new JLabel("Random maps will randomly get 40 coordinates as trees");
 		label_2.setHorizontalAlignment(SwingConstants.LEFT);
 		label_2.setInheritsPopupMenu(false);
 		label_2.setFocusable(false);
@@ -536,23 +535,23 @@ public class MainWindow extends JFrame{
 		lable.setLayout(gl_lable);
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);
-		//给游戏面板和蛇添加监听器
+		//Add a listener to the game panel and snake
 		gamePanel.addKeyListener(controller);
 		snake.addSnakeListener(controller);
-		//开始一个新的线程，用来更新分数
+		//Start a new thread to update the score
 		controller.startRefresh(new Thread(new refresh()));
-		//开始游戏
+		//Start the game
 		controller.beginGame();
 	}
-	//创建一个线程让一直刷新分数
+	//Create a thread to keep refreshing the score
 	public class refresh implements Runnable{
 		@Override
 		public void run() {
-			//当蛇活着的时候才进行循环
+			//The snake circulates when it is alive
 			while(!snake.isDie) {
-				txt_score.setText(controller.score + " 分");
-				txt_speed.setText(snake.speed + " 毫秒 / 格");
-				txt_maxScore.setText(controller.maxScore + " 分");
+				txt_score.setText(controller.score + "");
+				txt_speed.setText(snake.speed + " ms / grid");
+				txt_maxScore.setText(controller.maxScore + "");
 				try {
 					Thread.sleep(snake.speed);
 				} catch (InterruptedException e) {

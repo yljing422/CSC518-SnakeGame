@@ -22,11 +22,11 @@ import snake.listener.SnakeListener;
 import snake.util.Global;
 import snake.view.GamePanel;
 
-/*控制器
-* 控制Ground, Snake, Food<BR>
-* 负责游戏的逻辑
-* 处理按键事件
-* 实现了SnakeListener接口, 可以处理Snake 触发的事件
+/*Controller
+* Control Ground, Snake, Food<BR>
+* Responsible for the logic of the game
+* Handling key events
+* Implemented the SnakeListener interface, which can handle events triggered by Snake
 */
 public class Controller extends KeyAdapter implements SnakeListener {
 	
@@ -34,134 +34,135 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	private Food food;
 	private Ground ground;
 	private GamePanel gamePanel;
-    //存放当局游戏得分
+	//Store this game score
 	public int score = 0;
-	//存放历史最高得分，这个数据通过读取文件来赋值
+	//Store the highest score in history, this data is assigned by reading the file
 	public int maxScore;
 	public Thread thread;
 
-	//构造方法，初始化
+	//Construction method, initialization
 	public Controller(Snake snake, Food food, Ground ground, GamePanel gamePanel) {
 		super();
 		this.snake = snake; 
 		this.food = food;
 		this.ground = ground;
 		this.gamePanel = gamePanel;
-		//每次开始游戏读取文件，给maxScore赋值
+		//Read the file every time when you start the game and then assign a value to maxScore
 		readFile();
 	}
 	
 	@Override
-	//处理按键事件
+	//Handling key events
 	public void keyPressed(KeyEvent e) {
 		
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP://向上
+		case KeyEvent.VK_UP:
 			snake.chanceDirection(Snake.UP);
 			break;
-		case KeyEvent.VK_DOWN://向下
+		case KeyEvent.VK_DOWN:
 			snake.chanceDirection(Snake.DOWN);
 			break;
-		case KeyEvent.VK_LEFT://向左
+		case KeyEvent.VK_LEFT:
 			snake.chanceDirection(Snake.LEFT);
 			break;
-		case KeyEvent.VK_RIGHT://向右
+		case KeyEvent.VK_RIGHT:
 			snake.chanceDirection(Snake.RIGHT);
 			break;
-		case KeyEvent.VK_SPACE://空格键，实现游戏暂停
+		case KeyEvent.VK_SPACE://Space bar to pause the game
 			snake.changePause();
 			break;
-		case KeyEvent.VK_SHIFT://Shift键，实现开始新游戏
+		case KeyEvent.VK_SHIFT:// Shift key to start a new game
 			newGame();
 			break;
 		}
 	}
-   //处理Snake 触发的 snakeMoved 事件
+   //Handle the snakeMoved event triggered by Snake
 	@Override
 	public void snakeMove(Snake snake){
 		/*
-		 * 判断是否还可以放下食物
-		 * 当身体占满全部空位，没有地方再可以放食物时
-		 * 游戏结束
-		 * Global.count : 全局游戏界面总坐标，默认1000
-		 * this.snake.snakeBodyCount ： 蛇的身体总长度
-		 * ground.rocksCount ： 石头总数
+		 * Determine whether you can put down the food
+		 * When the body occupies all the space and there is no place to put food
+		 * game over
+		 * Global.count : The total coordinates of the global game window, the default is 1000
+		 * this.snake.snakeBodyCount ： The total length of the snake's body
+		 * ground.rocksCount ： Total number of stones
 		 * 
 		 */
 		if (Global.count - this.snake.snakeBodyCount - ground.rocksCount < 3) {
 			snake.die();
 			writeMaxScore();
-			//弹出消息框，提示游戏结束，并显示得分
-			JOptionPane.showMessageDialog(gamePanel, "您已获得最高分，游戏结束！\n       游戏得分："+ score);
+			//A message box will pop up, prompting that the game is over and showing the score
+			JOptionPane.showMessageDialog(gamePanel, "You have got the highest score, the game is over!\n       Game score："+ score);
 		}
-		//如果蛇吃到食物，，处理蛇吃到食物的方法，并获得新的食物
+		//If the snake eats food, how to deal with the food that the snake eats and get new food
 		if (food.isSnakeEatFood(snake)) {
 			snake.eatFood();
 			food.newFood(snake.getFoodPoint());
 			this.score +=10;
 			
 		}
-		//判断是否吃到石头，如果吃到石头，蛇死亡。
+		//Determine whether to eat the stone, if the stone is eaten, the snake will die
 		if (ground.isSnakeEatRock(snake)) {
 			snake.die();
-			//如果游戏得分大于历史记录最高分，把当前得分赋给最高分，并写入文件
+			//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
 			writeMaxScore();
-			//弹出消息框，提示游戏结束，并显示得分
-			JOptionPane.showMessageDialog(gamePanel, "蛇撞墙死亡，游戏结束！\n       游戏得分："+ score);
+			//A message box will pop up, prompting that the game is over and showing the score
+			JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score："+ score);
 		}
-		//如果蛇吃到身体也死亡
+		//If the snake eats the body, it will die
 		if(snake.isEatBody()) {
 			snake.die();
 			writeMaxScore();
-			JOptionPane.showMessageDialog(gamePanel, "蛇咬到自己死亡，游戏结束！\n       游戏得分："+ score);
+			JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score："+ score);
 		}
-		//如果蛇死亡，最后一次不刷新画面，如果刷新，蛇头会与石头重叠
+		//
+		//If the snake dies, the screen will not be refreshed for the last time. If refreshed, the snake head will overlap the stone
 		if (!(ground.isSnakeEatRock(snake) | snake.isEatBody())) {
 			gamePanel.display(snake, food, ground);
 		}
 	}
-	//开始游戏
+	//Start the game
 	public void beginGame() {
-		//开始游戏时，得分归零
+		//When starting the game, the score is reset to zero
 		score = 0;
-		//每次开始游戏是读取文件，获得历史最高分
+		//Every time you start the game, you read the file and get the highest score in history
 		readFile();
-		//获得新的食物坐标
+		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
-		//开始蛇驱动的线程
+		//Start the snake-driven thread
 		snake.start();
-		//开启主窗体界面刷新的线程，用来更新分数
+		//Start the main window interface refresh thread, used to update the score
 		new Thread(thread).start();
 	}
 	
-	//开始新游戏
+	//Start a new game
 	public void newGame() {
-		//开始新游戏后，清除蛇的身体
+		//After starting a new game, clear the snake’s body
 		snake.bodyClear();
-		//重新初始化蛇
+		//Reinitialize snake
 		snake.init();
-		//得分归零
+		//Zero score
 		score = 0;
-		//获得新食物坐标
+		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
 		/*
-		 * 判断蛇是否处于死亡状态，如果是，
-		 * 则在蛇驱动中已经跳出循环，不会触发蛇的监听
-		 * 此时再开始调用开始游戏，重新初始化游戏，重新监听蛇运动
+		 * Determine whether the snake is dead, if it is,
+		 * Then the loop has been jumped out of the snake drive and will not trigger the snake’s monitoring
+		 * At this point, start calling to start the game, re-initialize the game, and re-monitor the snake movement
 		 * 
-		 * 如果蛇不是死亡状态，则不执行开始游戏初始化，此时蛇处于正常监听状态
-		 * 只重新初始化蛇和食物，分数即可开始新游戏。
+		 * If the snake is not in a dead state, the start game initialization is not performed, and the snake is in a normal monitoring state at this time
+		 * Just reinitialize the snake and food, score and start a new game
 		 */
 		if (snake.isDie) {
 			beginGame();
 			snake.isDie = false;
 		}
 	}
-	
-	//读文件，获取历史最高分
+
+	//Read the file to get the highest score in history
 	public void readFile(){
 		File file = new File("MaxScore.txt");
-		//如果文件不存在，文件输出流会自动创建文件
+		//If the file does not exist, the file output stream will automatically create the file
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -169,7 +170,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				e.printStackTrace();
 			}
 		}
-		//读取文件
+		//Read file
 		BufferedReader br;
 		try {
 			br = new BufferedReader(
@@ -196,7 +197,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public void writeFile() {
 
 		File file = new File("MaxScore.txt");
-		//如果文件不存在，文件输出流会自动创建文件
+		//If the file does not exist, the file output stream will automatically create the file
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -204,14 +205,14 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				e.printStackTrace();
 			}
 		}
-		//写文件
+		//Write file
 		try {
 
 			BufferedWriter bw = new BufferedWriter(
 					new OutputStreamWriter(
 							new FileOutputStream(file), "UTF-8"));
-			bw.write(maxScore);//向文件写入最高分
-			bw.close();//关闭流
+			bw.write(maxScore);//Write the highest score to the file
+			bw.close();//Close stream
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -222,7 +223,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		}
 
 	}
-	//接收主窗体中刷新界面的线程
+	//Receive the thread that refreshes the interface in the main form
 	public Thread startRefresh(Thread thread) {
 		this.thread = thread;
 		return this.thread;
