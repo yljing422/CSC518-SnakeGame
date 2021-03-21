@@ -159,7 +159,7 @@ public class MainWindow extends JFrame{
 					.addContainerGap())
 		);
 		
-		JLabel lable_score = new JLabel("Current score:");
+		JLabel lable_score = new JLabel("Score:");
 		lable_score.setFocusable(false);
 		lable_score.setHorizontalAlignment(SwingConstants.LEFT);
 		lable_score.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -173,7 +173,7 @@ public class MainWindow extends JFrame{
 		txt_score.setFocusable(false);
 		txt_score.setColumns(10);
 		
-		JLabel label_maxScore = new JLabel("Highest score in history:");
+		JLabel label_maxScore = new JLabel("Top score:");
 		label_maxScore.setFocusable(false);
 		
 		txt_maxScore = new JTextField();
@@ -182,7 +182,7 @@ public class MainWindow extends JFrame{
 		txt_maxScore.setFocusable(false);
 		txt_maxScore.setColumns(10);
 		
-		JLabel label_speed = new JLabel("Current speed:");
+		JLabel label_speed = new JLabel("Speed:");
 		label_speed.setFocusable(false);
 		
 		txt_speed = new JTextField();
@@ -261,7 +261,7 @@ public class MainWindow extends JFrame{
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel label_isGriding = new JLabel("Whether to display the grid:");
+		JLabel label_isGriding = new JLabel("Display the grid:");
 		label_isGriding.setFocusable(false);
 		
 		JSeparator separator_2 = new JSeparator();
@@ -333,7 +333,7 @@ public class MainWindow extends JFrame{
 					.addGap(14))
 		);
 		
-		JLabel label_5 = new JLabel("Choose difficulty:");
+		JLabel label_5 = new JLabel("Difficulty:");
 		label_5.setFocusable(false);
 		
 		JRadioButton radioButton_speed1 = new JRadioButton("Easy");
@@ -379,7 +379,7 @@ public class MainWindow extends JFrame{
 		panel_setSpeed.add(radioButton_speed3);
 		
 		
-		JLabel label_setMap = new JLabel("Choose a map:");
+		JLabel label_setMap = new JLabel("Show map:");
 		label_setMap.setFocusable(false);
 		
 		JRadioButton radioButton_map1 = new JRadioButton("Map1");
@@ -407,7 +407,7 @@ public class MainWindow extends JFrame{
 		});
 		radioButton_map2.setFocusable(false);
 		
-		JRadioButton radioButton_map3 = new JRadioButton("Add trees");
+		JRadioButton radioButton_map3 = new JRadioButton("Trees");
 		radioButton_map3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -429,7 +429,7 @@ public class MainWindow extends JFrame{
 		panel_setMap.add(radioButton_map3);
 		panel_set.setLayout(gl_panel_set);
 		
-		JButton button_pause = new JButton("Start/Pause");
+		JButton button_pause = new JButton("S/P");
 		button_pause.setFocusable(false);
 		button_pause.addMouseListener(new MouseAdapter() {
 			@Override
@@ -439,7 +439,7 @@ public class MainWindow extends JFrame{
 		});
 		button_pause.setFocusPainted(false);
 
-		JButton button_newGame = new JButton("Start a new game");
+		JButton button_newGame = new JButton("New game");
 		button_newGame.setFocusable(false);
 		button_newGame.addMouseListener(new MouseAdapter() {
 			@Override

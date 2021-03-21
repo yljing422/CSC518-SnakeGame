@@ -92,7 +92,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			snake.die();
 			writeMaxScore();
 			//A message box will pop up, prompting that the game is over and showing the score
-			JOptionPane.showMessageDialog(gamePanel, "You have got the highest score, the game is over!\n       Game score£º"+ score);
+			JOptionPane.showMessageDialog(gamePanel, "You have got the highest score, the game is over!\n       Game score: "+ score);
 		}
 		//If the snake eats food, how to deal with the food that the snake eats and get new food
 		if (food.isSnakeEatFood(snake)) {
@@ -107,13 +107,13 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
 			writeMaxScore();
 			//A message box will pop up, prompting that the game is over and showing the score
-			JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score£º"+ score);
+			JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score: "+ score);
 		}
 		//If the snake eats the body, it will die
 		if(snake.isEatBody()) {
 			snake.die();
 			writeMaxScore();
-			JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score£º"+ score);
+			JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score: "+ score);
 		}
 		//
 		//If the snake dies, the screen will not be refreshed for the last time. If refreshed, the snake head will overlap the stone
