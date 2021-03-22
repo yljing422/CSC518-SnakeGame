@@ -42,7 +42,7 @@ public class Snake {
 	private boolean life; //Judge whether the snake is alive
 	private boolean pause; //Does the snake pause
 	private boolean isPause; //Snake is suspended every time the game starts
-	private int INCREASE_SPEED = 10; // speed increase for every food that the snake eats
+	private int INCREASE_SPEED = 5; // speed increase for every food that the snake eats
 	public boolean isDie; //Whether the snake is dead
 	public int speed = 500; //Initialize snake speed： 500ms/grid
 

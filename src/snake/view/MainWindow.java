@@ -347,7 +347,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed1.setSelected(true);
 		radioButton_speed1.setFocusable(false);
 		
-		JRadioButton radioButton_speed2 = new JRadioButton("Medium");
+		JRadioButton radioButton_speed2 = new JRadioButton("Med");
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -479,58 +479,69 @@ public class MainWindow extends JFrame{
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		
-		JLabel label = new JLabel("Direction of arrow keys");
+		JLabel label = new JLabel("Use arrow keys to control direction");
 		label.setFocusable(false);
+
+		JLabel label_A = new JLabel("Press A to slow down");
+		label_A.setFocusable(false);
+
+		JLabel label_D = new JLabel("Press D to speed up");
+		label_D.setFocusable(false);
 		
-		JLabel label_1 = new JLabel("Space bar can realize pause/continue");
-		label_1.setFocusable(false);
+		JLabel label_S = new JLabel("Press S to pause/continue");
+		label_S.setFocusable(false);
 		
-		JLabel lblShift = new JLabel("Shift key to start a new game");
-		lblShift.setFocusable(false);
+		JLabel label_W = new JLabel("Press W to restart");
+		label_W.setFocusable(false);
 		
-		JLabel label_2 = new JLabel("Random maps will randomly get 40 coordinates as trees");
-		label_2.setHorizontalAlignment(SwingConstants.LEFT);
-		label_2.setInheritsPopupMenu(false);
+		JLabel label_2 = new JLabel("Random maps generates 40 trees");
 		label_2.setFocusable(false);
+
+		/*label_2.setHorizontalAlignment(SwingConstants.LEFT);
+		label_2.setInheritsPopupMenu(false);
 		label_2.setFocusTraversalKeysEnabled(false);
-		label_2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		label_2.setAlignmentX(Component.CENTER_ALIGNMENT);*/
+
 		GroupLayout gl_lable = new GroupLayout(lable);
 		gl_lable.setHorizontalGroup(
 			gl_lable.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_lable.createSequentialGroup()
 					.addGroup(gl_lable.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
-								71, GroupLayout.PREFERRED_SIZE)
+								80, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_lable.createSequentialGroup()
 							.addGap(26)
 							.addGroup(gl_lable.createParallelGroup(Alignment.LEADING)
-								.addComponent(label_1, 
+								.addComponent(label,
 										GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-								.addComponent(label, GroupLayout.PREFERRED_SIZE,
-										113, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblShift)
-								.addComponent(label_2, 
-										GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))))
+								.addComponent(label_A)
+								.addComponent(label_S)
+								.addComponent(label_D)
+								.addComponent(label_W)
+								.addComponent(label_2)
+							)))
 					.addContainerGap())
 		);
 		gl_lable.setVerticalGroup(
 			gl_lable.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_lable.createSequentialGroup()
-					.addGap(8)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
-							30, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(label, GroupLayout.PREFERRED_SIZE, 
-							26, GroupLayout.PREFERRED_SIZE)
 					.addGap(2)
-					.addComponent(label_1, GroupLayout.PREFERRED_SIZE,
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
 							26, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblShift, GroupLayout.PREFERRED_SIZE,
-							25, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(label_2)
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addComponent(label_2, GroupLayout.PREFERRED_SIZE,
+							26, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label, GroupLayout.PREFERRED_SIZE,
+							26, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label_A, GroupLayout.PREFERRED_SIZE,
+							26, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label_D, GroupLayout.PREFERRED_SIZE,
+							26, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label_W, GroupLayout.PREFERRED_SIZE,
+							26, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label_S,GroupLayout.PREFERRED_SIZE,
+							26, GroupLayout.PREFERRED_SIZE)
+				)
 		);
 		lable.setLayout(gl_lable);
 		panel_1.setLayout(gl_panel_1);

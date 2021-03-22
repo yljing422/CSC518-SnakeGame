@@ -68,11 +68,17 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		case KeyEvent.VK_RIGHT:
 			snake.chanceDirection(Snake.RIGHT);
 			break;
-		case KeyEvent.VK_SPACE://Space bar to pause the game
+		case KeyEvent.VK_S://Space bar to pause the game
 			snake.changePause();
 			break;
-		case KeyEvent.VK_SHIFT:// Shift key to start a new game
+		case KeyEvent.VK_W://Shift key to start a new game
 			newGame();
+			break;
+		case KeyEvent.VK_A:	//A to slow down
+			snake.speed += 5;
+			break;
+		case KeyEvent.VK_D:	//D to speed up
+			snake.speed -= 5;
 			break;
 		}
 	}
@@ -84,8 +90,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		 * When the body occupies all the space and there is no place to put food
 		 * game over
 		 * Global.count : The total coordinates of the global game window, the default is 1000
-		 * this.snake.snakeBodyCount £º The total length of the snake's body
-		 * ground.rocksCount £º Total number of stones
+		 * this.snake.snakeBodyCount ï¿½ï¿½ The total length of the snake's body
+		 * ground.rocksCount ï¿½ï¿½ Total number of stones
 		 * 
 		 */
 		if (Global.count - this.snake.snakeBodyCount - ground.rocksCount < 3) {
@@ -137,17 +143,19 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	
 	//Start a new game
 	public void newGame() {
-		//After starting a new game, clear the snake¡¯s body
+		//After starting a new game, clear the snakeï¿½ï¿½s body
 		snake.bodyClear();
 		//Reinitialize snake
 		snake.init();
 		//Zero score
 		score = 0;
+		//Reset the speed
+		snake.speed = 500;
 		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
 		/*
 		 * Determine whether the snake is dead, if it is,
-		 * Then the loop has been jumped out of the snake drive and will not trigger the snake¡¯s monitoring
+		 * Then the loop has been jumped out of the snake drive and will not trigger the snakeï¿½ï¿½s monitoring
 		 * At this point, start calling to start the game, re-initialize the game, and re-monitor the snake movement
 		 * 
 		 * If the snake is not in a dead state, the start game initialization is not performed, and the snake is in a normal monitoring state at this time
