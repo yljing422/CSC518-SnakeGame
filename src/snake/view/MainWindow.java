@@ -336,11 +336,11 @@ public class MainWindow extends JFrame{
 		JLabel label_5 = new JLabel("Speed:");
 		label_5.setFocusable(false);
 		
-		JRadioButton radioButton_speed1 = new JRadioButton("Slow ");
+		JRadioButton radioButton_speed1 = new JRadioButton("Slow");
 		radioButton_speed1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 500;
+					snake.speed = 300;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
@@ -351,7 +351,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 350;
+					snake.speed = 200;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
@@ -361,7 +361,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 200;
+					snake.speed = 100;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
