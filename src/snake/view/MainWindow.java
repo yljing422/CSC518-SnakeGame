@@ -333,10 +333,10 @@ public class MainWindow extends JFrame{
 					.addGap(14))
 		);
 		
-		JLabel label_5 = new JLabel("Difficulty:");
+		JLabel label_5 = new JLabel("Speed:");
 		label_5.setFocusable(false);
 		
-		JRadioButton radioButton_speed1 = new JRadioButton("Easy");
+		JRadioButton radioButton_speed1 = new JRadioButton("Slow ");
 		radioButton_speed1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -351,17 +351,17 @@ public class MainWindow extends JFrame{
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 300;
+					snake.speed = 350;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
 		radioButton_speed2.setFocusable(false);
 		
-		JRadioButton radioButton_speed3 = new JRadioButton("Hard");
+		JRadioButton radioButton_speed3 = new JRadioButton("Fast");
 		radioButton_speed3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 100;
+					snake.speed = 200;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
@@ -372,7 +372,7 @@ public class MainWindow extends JFrame{
 		groupSpeed.add(radioButton_speed2);
 		groupSpeed.add(radioButton_speed3);
 		
-		panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
 		panel_setSpeed.add(label_5);
 		panel_setSpeed.add(radioButton_speed1);
 		panel_setSpeed.add(radioButton_speed2);
