@@ -239,7 +239,7 @@ public class MainWindow extends JFrame{
 		);
 		panel_display.setLayout(gl_panel_display);
 		
-		JLabel label_set = new JLabel("Setting items:");
+		JLabel label_set = new JLabel("  Setting items:");
 		label_set.setFocusable(false);
 		
 		JSeparator separator = new JSeparator();
@@ -261,7 +261,7 @@ public class MainWindow extends JFrame{
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel label_isGriding = new JLabel("Display the grid:");
+		JLabel label_isGriding = new JLabel(" Display the grid:");
 		label_isGriding.setFocusable(false);
 		
 		JSeparator separator_2 = new JSeparator();
@@ -347,7 +347,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed1.setSelected(true);
 		radioButton_speed1.setFocusable(false);
 		
-		JRadioButton radioButton_speed2 = new JRadioButton("Med");
+		JRadioButton radioButton_speed2 = new JRadioButton("Medium");
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -357,7 +357,7 @@ public class MainWindow extends JFrame{
 		});
 		radioButton_speed2.setFocusable(false);
 		
-		JRadioButton radioButton_speed3 = new JRadioButton("Fast");
+		JRadioButton radioButton_speed3 = new JRadioButton("Fast        ");
 		radioButton_speed3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -494,7 +494,7 @@ public class MainWindow extends JFrame{
 		JLabel label_W = new JLabel("Press W to restart");
 		label_W.setFocusable(false);
 		
-		JLabel label_2 = new JLabel("Random maps generates 40 trees");
+		JLabel label_2 = new JLabel("Tree map generate tree when eat food");
 		label_2.setFocusable(false);
 
 		/*label_2.setHorizontalAlignment(SwingConstants.LEFT);
