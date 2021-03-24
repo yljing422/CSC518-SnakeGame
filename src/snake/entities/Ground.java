@@ -98,6 +98,7 @@ public class Ground {
 					rocksCount++;
 				}
 	}
+
 	//Judge whether the snake has eaten the tree
 	//
 	//Compare all the nodes of the snake with the coordinates of the stone. If you want to wait, it will prove that you have eaten the tree.

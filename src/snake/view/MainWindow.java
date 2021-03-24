@@ -1,9 +1,6 @@
 package snake.view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -561,6 +558,7 @@ public class MainWindow extends JFrame{
 			//The snake circulates when it is alive
 			while(!snake.isDie) {
 				txt_score.setText(controller.score + "");
+				txt_score.setForeground(controller.isDeductingScore ? Color.red : Color.BLACK);
 				txt_speed.setText(snake.speed + " ms / grid");
 				txt_maxScore.setText(controller.maxScore + "");
 				try {

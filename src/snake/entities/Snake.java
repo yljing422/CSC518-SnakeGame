@@ -74,6 +74,41 @@ public class Snake {
 		isPause = true;
 		
 	}
+
+	public Point getNextMove() {
+		int x = body.getFirst().x;
+		int y = body.getFirst().y;
+		switch (oldDirection) {
+			case UP: //Move up
+				y--;
+				//When you get to the side, you can appear from the other side
+				if (y < 0) {
+					y = Global.HEIGHT - 1;
+				}
+				break;
+			case DOWN:
+				y++;
+				//When you get to the side, you can appear from the other side
+				if (y >= Global.HEIGHT) {
+					y = 0;
+				}
+				break;
+			case LEFT:
+				x--;
+				if (x < 0) {
+					x = Global.WIDTH - 1;
+				}
+				break;
+			case RIGHT:
+				x++;
+				if (x >= Global.WIDTH) {
+					x = 0;
+				}
+				break;
+		}
+		return new Point(x, y);
+	}
+
 	/*
 	 * Snake moves, first judge whether the new and old directions are the same, and ignore if they are the same
 	 * Different, change direction. The snake moves, by adding a head node,
@@ -121,10 +156,15 @@ public class Snake {
 		//Add head
 		body.addFirst(newHead);
 	}
+
+	public void backwardOneStep() {
+		body.removeFirst();
+		body.addLast(oldTail);
+	}
+
 	//Snake changes direction
 	public void chanceDirection(int direction) {
 		newDirection = direction;
-		
 	}
 	//Snake eats food
 	public void eatFood() {
