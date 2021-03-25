@@ -24,3 +24,10 @@ hs_err_pid*
 !/.idea/
 !/CSC518-SnakeGame.iml
 !/MaxScore.txt
+.idea/.gitignore
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+CSC518-SnakeGame.iml
+MaxScore.txt
+
