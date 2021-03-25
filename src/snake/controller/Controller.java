@@ -95,7 +95,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		 * ground.rocksCount �� Total number of stones
 		 * 
 		 */
-		if (Global.count - this.snake.snakeBodyCount - ground.rocksCount < 3) {
+		if (Global.count - this.snake.snakeBodyCount - ground.treesCount < 3) {
 			snake.die();
 			writeMaxScore();
 			//A message box will pop up, prompting that the game is over and showing the score
@@ -105,11 +105,14 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		if (food.isSnakeEatFood(snake)) {
 			snake.eatFood();
 			food.newFood(snake.getFoodPoint());
+			if(ground.MAP == 3) { 
+				ground.createNewTree(snake);
+			}	
 			this.score +=10;
 			
 		}
 
-		if ((ground.isSnakeEatRock(snake) || snake.isEatBody()) && this.score > 0) {
+		if ((ground.isSnakeHitTree(snake) || snake.isEatBody()) && this.score > 0) {
 			// Each time the snake crashes into something, it wiil not die immediately. Instead, a 'crash countdown'
 			// begins and reduces by one each move time of the game. The player sees this count down via the score
 			// message bar. If the snake is moved away before the count down reaches zero, it has escaped death.
@@ -121,7 +124,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		}
 
 		//Determine whether to eat the stone, if the stone is eaten, the snake will die
-		if (ground.isSnakeEatRock(snake)) {
+		if (ground.isSnakeHitTree(snake)) {
 			if (this.score > 0) {
 				snake.backwardOneStep();
 			} else {
@@ -144,7 +147,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		}
 		//
 		//If the snake dies, the screen will not be refreshed for the last time. If refreshed, the snake head will overlap the stone
-		if (!(ground.isSnakeEatRock(snake) | snake.isEatBody())) {
+		if (!(ground.isSnakeHitTree(snake) | snake.isEatBody())) {
 			gamePanel.display(snake, food, ground);
 		}
 	}
