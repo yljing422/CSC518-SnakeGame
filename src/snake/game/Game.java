@@ -8,15 +8,15 @@ import snake.view.MainWindow;
  * through the start window, realize the start procedure
  */
 public class Game {
-	
+
 	public static void main(String[] args) {
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainWindow frame = new MainWindow();
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

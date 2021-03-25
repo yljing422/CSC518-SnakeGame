@@ -12,7 +12,7 @@ import snake.util.Global;
 //The display interface of the game
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel{
-	
+
 	private Snake snake;
 	private Food food;
 	private Ground ground;
@@ -29,13 +29,13 @@ public class GamePanel extends JPanel{
 		//Redisplay
 		//Set background color
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, Global.WIDTH * Global.CELL_SIZE, 
+		g.fillRect(0, 0, Global.WIDTH * Global.CELL_SIZE,
 				Global.HEIGHT * Global.CELL_SIZE);
 		if(ground != null && snake != null && food != null ) {
 			this.ground.drawMe(g);
 			this.snake.drawMe(g);
 			this.food.drawMe(g);
 		}
-		
+
 	}
 }

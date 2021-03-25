@@ -23,7 +23,7 @@ public class Food extends Point{
 	}
 
 	public void drawMe(Graphics g) {
-        // draw the food
+		// draw the food
 		food = new ImageIcon("images/apple.png");
 		food.paintIcon(null, g, point.x * Global.CELL_SIZE, point.y * Global.CELL_SIZE);
 	}

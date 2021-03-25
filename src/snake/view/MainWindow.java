@@ -557,11 +557,8 @@ public class MainWindow extends JFrame{
 		public void run() {
 			//The snake circulates when it is alive
 			while(!snake.isDie) {
-				txt_score.setText(
-						controller.isCountingDown
-								? "Count Down: " + controller.countdownNumber
-								: "" + controller.score);
-				txt_score.setForeground(controller.isCountingDown ? Color.red : Color.BLACK);
+				txt_score.setText(controller.score + "");
+				txt_score.setForeground(controller.isDeductingScore ? Color.red : Color.BLACK);
 				txt_speed.setText(snake.speed + " ms / grid");
 				txt_maxScore.setText(controller.maxScore + "");
 				try {

@@ -3,58 +3,64 @@ package snake.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.ImageObserver;
 import java.util.Random;
 
 import snake.util.Global;
 
+import javax.swing.*;
+
 public class Ground {
 	/*
-	 *Define the array for storing the stone coordinates, 1 is the tree, 0 is the blank area
-	 *Be sure to use global static variables to always take up space. Otherwise it will make mistakes when producing food
-	 */
+	define a new int array to store trees,if there is a tree,the value is 1,otherwise is 0
+	it must be static to avoid cause collision when generate food
+    */
 	private static final int trees[][] =
 			new int[Global.WIDTH][Global.HEIGHT];
-	//The number of stored trees
+	// Count the number of trees
 	public int treesCount = 0;
-	//Whether to draw a grid
+	// draw grid or not
 	private boolean isDrawGriding;
-	//Choose map to use
+	//map = 1, means the map is selected
 	public int MAP = 1;
-	//Constructor, initialize the map
+	private ImageObserver img;
+
+	//initial the map
 	public Ground() {
 		init();
 	}
-	//Clear all trees
+	//clear all trees
 	public void clear() {
 		for (int x = 0; x < Global.WIDTH; x++)
 			for (int y = 0; y < Global.HEIGHT; y++)
 				trees[x][y] = 0;
 	}
-	//Initialize the tree position
+	//initial the position of all trees
 	public void init() {
-		//Clear all trees
+		//call clear stone method
 		clear();
-		//Select map
+		//switch to map mode
 		switch(MAP) {
 			case 1:
-				map1();
+				map1(); //mode 1 use map 1
+				//get the number of trees
 				getTreesCount();
 				break;
 			case 2:
-				map2(); //map2
+				map2(); //mode 2 use map 2get the number of trees
 				getTreesCount();
 				break;
 			case 3:
-				map3(); //Random map
+				map3(); //mode 3 random map get the number of trees
 				getTreesCount();
 				break;
 			default :
-				map1(); //Default map 1
+				map1(); //?????1
 				getTreesCount();
 				break;
 		}
 	}
-	//The first set of default map tree coordinates
+	//map 1 set the position of trees(as the wall of game panel)
 	public void map1() {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			trees[x][0] = 1;
@@ -65,31 +71,21 @@ public class Ground {
 			trees[Global.WIDTH-1][y]  = 1;
 		}
 	}
-	//Second map
+	//map 2 set the position of trees(as the wall of game panel)
 	public void map2() {
-		for(int x = 5; x < Global.WIDTH-5; x++) {
-			trees[x][5] = 1;
-			trees[x][Global.HEIGHT-4] = 1;
-		}
-		for(int y = 9; y < Global.HEIGHT-8; y++) {
-			trees[9][y] = 1;
-			trees[Global.WIDTH-9][y] = 1;
-		}
+		clear();
 	}
-	//Random map, get 40 coordinate seat trees randomly
+	//map 3  set 40 trees randomly
 	public void map3() {
 		Random random = new Random();
-		int x = 0,y = 0;
-		for(int i = 0; i < 40; i++) {
-			x = random.nextInt(Global.WIDTH);
-			y = random.nextInt(Global.HEIGHT);
-			trees[x][y] = 1;
-		}
+		int x = random.nextInt(Global.WIDTH);
+		int y = random.nextInt(Global.HEIGHT);
+		trees[x][y] = 1;
 	}
 
-	//Get the total number of trees
+	//get the total number of trees
 	public void getTreesCount() {
-		//Cleared every time the map is changed, regained
+		//clear all trees when switch map
 		treesCount = 0;
 		for (int x = 0; x < Global.WIDTH; x++)
 			for (int y = 0; y < Global.HEIGHT; y++)
@@ -98,10 +94,24 @@ public class Ground {
 				}
 	}
 
-	//Judge whether the snake crash the tree
-	//
-	//Compare all the nodes of the snake with the coordinates of the tree. If you want to wait, it will prove that you have crash the tree.
-	public boolean isSnakeCrashTree(Snake snake) {
+	// use random sampling to improve
+	public boolean createNewTree(Snake snake) {
+		Random random = new Random();
+		while(true) {
+			int p = random.nextInt(Global.WIDTH);
+			int q = random.nextInt(Global.HEIGHT);
+			trees[p][q] = 1;
+			boolean ishit = isSnakeHitTree(snake);
+			if(!ishit) {
+				break;
+			}
+			trees[p][q] = 0;
+		}
+		return true;
+	}
+	//check whether the snake hit a tree
+	//by comparing the snake's body with positions of all trees
+	public boolean isSnakeHitTree(Snake snake) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
 				if (trees[x][y] == 1
@@ -113,7 +123,7 @@ public class Ground {
 		}
 		return false;
 	}
-	//Get random coordinates that will not overlap with the tree
+	//Get the point which hasn't occupied by trees
 	public Point getPoint() {
 		Random random = new Random();
 		int x = 0, y = 0;
@@ -123,26 +133,25 @@ public class Ground {
 		}while(trees[x][y] == 1);
 		return new Point(x, y);
 	}
-	//Painting trees and grids
+	//draw grid and trees
 	public void drawMe(Graphics g) {
-		drawTrees(g);
+		drawtrees(g);
 		if (isDrawGriding) {
 			drawGriding(g);
 		}
 	}
-	//Place tree
-	public void drawTrees(Graphics g) {
+	//draw trees
+	public void drawtrees(Graphics g) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
 				if (trees[x][y] == 1) {
-					g.setColor(Color.DARK_GRAY);
-					g.fill3DRect(x * Global.CELL_SIZE, y * Global.CELL_SIZE,
-							Global.CELL_SIZE, Global.CELL_SIZE, true);
+					ImageIcon icon2 =new ImageIcon("images/tree.jpeg");
+					g.drawImage(icon2.getImage(),x * Global.CELL_SIZE, y * Global.CELL_SIZE, Global.CELL_SIZE, Global.CELL_SIZE,img);
 				}
 			}
 		}
 	}
-	//Draw grid
+	//draw grid
 	public void drawGriding(Graphics g) {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
@@ -155,11 +164,10 @@ public class Ground {
 			}
 		}
 	}
-	//Need to draw grid
+	//check whether 'drawing grid' is chosen by player
 	public void drawGriding() {
 		isDrawGriding = true;
 	}
-	//No need to draw grid
 	public void notDrawGriding() {
 		isDrawGriding = false;
 	}

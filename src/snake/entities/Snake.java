@@ -174,7 +174,7 @@ public class Snake {
 	}
 
 	//Determine whether the snake has eaten the body
-	public boolean isCrashBody() {
+	public boolean isEatBody() {
 		//body.get(0)The coordinates of the snake’s head are stored,
 		//To exclude snake heads, start comparing from i=1
 		for (int i = 1; i < body.size(); i++) {
