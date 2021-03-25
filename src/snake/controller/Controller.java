@@ -40,6 +40,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public int maxScore;
 	public Thread thread;
 	public boolean isDeductingScore = false;
+	public int cheatTime = 3;
 
 	//Construction method, initialization
 	public Controller(Snake snake, Food food, Ground ground, GamePanel gamePanel) {
@@ -51,7 +52,12 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		//Read the file every time when you start the game and then assign a value to maxScore
 		readFile();
 	}
-	
+	public void cheatGame() {
+		snake.bodyClear();
+		snake.init();
+		score = score / 2;
+		food.newFood(snake.getFoodPoint());
+	}
 	@Override
 	//Handling key events
 	public void keyPressed(KeyEvent e) {
@@ -80,6 +86,15 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			break;
 		case KeyEvent.VK_D:	//D to speed up
 			snake.speed -= 5;
+			break;
+		case KeyEvent.VK_C: //C to cheat, but only has 3 times.
+			if (cheatTime > 0) {
+				cheatGame();
+				cheatTime--;
+				// message bar: will note how many times left for user
+			} else {
+				// message bar: will note that the user have no chance to cheat.
+			}
 			break;
 		}
 	}
@@ -173,6 +188,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		snake.init();
 		//Zero score
 		score = 0;
+		// the valid cheat time reset to 3
+		cheatTime = 3;
 		//Reset the speed
 		snake.speed = 500;
 		//Get new food coordinates
