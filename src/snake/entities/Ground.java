@@ -37,7 +37,7 @@ public class Ground {
 	}
 	//initial the position of all trees
 	public void init() {
-		//call clear stone method
+		//call clear tree method
 		clear();
 		//switch to map mode
 		switch(MAP) {
@@ -55,7 +55,7 @@ public class Ground {
 				getTreesCount();
 				break;
 			default :
-				map1(); //Ĭ�ϵ�ͼ1
+				map1(); //default mode is map1
 				getTreesCount();
 				break;
 		}
@@ -71,11 +71,11 @@ public class Ground {
 			trees[Global.WIDTH-1][y]  = 1;
 		}
 	}
-	//map 2 set the position of trees(as the wall of game panel)
+	//map 2 no trees in this map,  so call clear()method
 	public void map2() {
 		clear();
 	}
-	//map 3  set 40 trees randomly
+	//map 3  set one tree randomly at beginning
 	public void map3() {
 		Random random = new Random();
 		int x = random.nextInt(Global.WIDTH);
@@ -95,19 +95,23 @@ public class Ground {
 	}
 
 	// use random sampling to improve
-	public boolean createNewTree(Snake snake) {
+	public void createNewTree(Snake snake) {
 		Random random = new Random();
+		if (treesCount >= 40) {
+			return;
+		}
 		while(true) {
-			int p = random.nextInt(Global.WIDTH);
-			int q = random.nextInt(Global.HEIGHT);
+			Point point = getPoint();
+			int p = point.x;
+			int q = point.y;
 			trees[p][q] = 1;
+			//check whether new tree conflicts with snake
 			boolean ishit = isSnakeHitTree(snake);
-			if(!ishit) {
+			if (!ishit) {
 				break;
 			}
 			trees[p][q] = 0;
 		}
-		return true;
 	}
 	//check whether the snake hit a tree
 	//by comparing the snake's body with positions of all trees

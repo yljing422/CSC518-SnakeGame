@@ -104,10 +104,11 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		//If the snake eats food, how to deal with the food that the snake eats and get new food
 		if (food.isSnakeEatFood(snake)) {
 			snake.eatFood();
-			food.newFood(snake.getFoodPoint());
+			//In map3(trees) mode,each time if an apple are eaten,a new tree will be generated
 			if(ground.MAP == 3) { 
 				ground.createNewTree(snake);
-			}	
+			}
+			food.newFood(snake.getFoodPoint());
 			this.score +=10;
 			
 		}
@@ -175,6 +176,10 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		score = 0;
 		//Reset the speed
 		snake.speed = 500;
+		///everytime create a new game,clear all trees first
+		if (ground.MAP == 3) {
+			ground.clear();
+		}
 		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
 		/*
