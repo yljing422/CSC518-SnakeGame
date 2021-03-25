@@ -29,6 +29,8 @@ import snake.view.GamePanel;
 * Implemented the SnakeListener interface, which can handle events triggered by Snake
 */
 public class Controller extends KeyAdapter implements SnakeListener {
+
+	private static final int DEFAULT_COUNT_DOWN_NUMBER = 5;
 	
 	private Snake snake;
 	private Food food;
@@ -41,6 +43,9 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public Thread thread;
 	public boolean isDeductingScore = false;
 	public int cheatTime = 3;
+
+	public boolean isCountingDown= false;
+	public int countdownNumber = DEFAULT_COUNT_DOWN_NUMBER;
 
 	//Construction method, initialization
 	public Controller(Snake snake, Food food, Ground ground, GamePanel gamePanel) {
@@ -127,38 +132,35 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			
 		}
 
-		if ((ground.isSnakeHitTree(snake) || snake.isEatBody()) && this.score > 0) {
+		if ((ground.isSnakeHitTree(snake) || snake.isEatBody())) {
 			// Each time the snake crashes into something, it wiil not die immediately. Instead, a 'crash countdown'
 			// begins and reduces by one each move time of the game. The player sees this count down via the score
 			// message bar. If the snake is moved away before the count down reaches zero, it has escaped death.
-			this.score--;
-			this.isDeductingScore = true;
-			snake.backwardOneStep();
+
+			// message bar: note the user they can escape until the score to 0
+			this.countdownNumber--;
+			this.isCountingDown = true;
+			if (this.countdownNumber > 0) {
+				snake.backwardOneStep();
+			}
 		} else {
-			this.isDeductingScore = false;
+			this.isCountingDown = false;
+			this.countdownNumber = DEFAULT_COUNT_DOWN_NUMBER;
 		}
 
 		//Determine whether to eat the stone, if the stone is eaten, the snake will die
 		if (ground.isSnakeHitTree(snake)) {
-			if (this.score > 0) {
-				snake.backwardOneStep();
-			} else {
-				snake.die();
-				//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
-				writeMaxScore();
-				//A message box will pop up, prompting that the game is over and showing the score
-				JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score: " + score);
-			}
+			snake.die();
+			//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
+			writeMaxScore();
+			//A message box will pop up, prompting that the game is over and showing the score
+			JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score: " + score);
 		}
 
 		if(snake.isEatBody()) { //If the snake eats the body, it will die
-			if (this.score > 0) {
-				snake.backwardOneStep();
-			} else {
-				snake.die();
-				writeMaxScore();
-				JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score: " + score);
-			}
+			snake.die();
+			writeMaxScore();
+			JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score: " + score);
 		}
 		//
 		//If the snake dies, the screen will not be refreshed for the last time. If refreshed, the snake head will overlap the stone
