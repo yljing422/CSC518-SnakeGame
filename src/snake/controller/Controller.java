@@ -23,13 +23,15 @@ import snake.util.Global;
 import snake.view.GamePanel;
 
 /*Controller
-* Control Ground, Snake, Food<BR>
-* Responsible for the logic of the game
-* Handling key events
-* Implemented the SnakeListener interface, which can handle events triggered by Snake
-*/
+ * Control Ground, Snake, Food<BR>
+ * Responsible for the logic of the game
+ * Handling key events
+ * Implemented the SnakeListener interface, which can handle events triggered by Snake
+ */
 public class Controller extends KeyAdapter implements SnakeListener {
-	
+
+	private static final int DEFAULT_COUNT_DOWN_NUMBER = 5;
+
 	private Snake snake;
 	private Food food;
 	private Ground ground;
@@ -39,51 +41,69 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	//Store the highest score in history, this data is assigned by reading the file
 	public int maxScore;
 	public Thread thread;
-	public boolean isDeductingScore = false;
+	public int cheatTime = 3;
+
+	public boolean isCountingDown= false;
+	public int countdownNumber = DEFAULT_COUNT_DOWN_NUMBER;
 
 	//Construction method, initialization
 	public Controller(Snake snake, Food food, Ground ground, GamePanel gamePanel) {
 		super();
-		this.snake = snake; 
+		this.snake = snake;
 		this.food = food;
 		this.ground = ground;
 		this.gamePanel = gamePanel;
 		//Read the file every time when you start the game and then assign a value to maxScore
 		readFile();
 	}
-	
+
 	@Override
 	//Handling key events
 	public void keyPressed(KeyEvent e) {
-		
+
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			snake.chanceDirection(Snake.UP);
-			break;
-		case KeyEvent.VK_DOWN:
-			snake.chanceDirection(Snake.DOWN);
-			break;
-		case KeyEvent.VK_LEFT:
-			snake.chanceDirection(Snake.LEFT);
-			break;
-		case KeyEvent.VK_RIGHT:
-			snake.chanceDirection(Snake.RIGHT);
-			break;
-		case KeyEvent.VK_S://Space bar to pause the game
-			snake.changePause();
-			break;
-		case KeyEvent.VK_W://Shift key to start a new game
-			newGame();
-			break;
-		case KeyEvent.VK_A:	//A to slow down
-			snake.speed += 5;
-			break;
-		case KeyEvent.VK_D:	//D to speed up
-			snake.speed -= 5;
-			break;
+			case KeyEvent.VK_UP:
+				snake.chanceDirection(Snake.UP);
+				break;
+			case KeyEvent.VK_DOWN:
+				snake.chanceDirection(Snake.DOWN);
+				break;
+			case KeyEvent.VK_LEFT:
+				snake.chanceDirection(Snake.LEFT);
+				break;
+			case KeyEvent.VK_RIGHT:
+				snake.chanceDirection(Snake.RIGHT);
+				break;
+			case KeyEvent.VK_S://Space bar to pause the game
+				snake.changePause();
+				break;
+			case KeyEvent.VK_W://Shift key to start a new game
+				newGame();
+				break;
+			case KeyEvent.VK_A:	//A to slow down
+				snake.speed += 5;
+				break;
+			case KeyEvent.VK_D:	//D to speed up
+				snake.speed -= 5;
+				break;
+			case KeyEvent.VK_C: //C to cheat, but only has 3 times.
+				if (cheatTime > 0) {
+					cheatGame();
+					cheatTime--;
+					// message bar: will note how many times left for user
+				} else {
+					// message bar: will note that the user have no chance to cheat.
+				}
+				break;
 		}
 	}
-   //Handle the snakeMoved event triggered by Snake
+	public void cheatGame() {
+		snake.bodyClear();
+		snake.init();
+		score = score / 2;
+		food.newFood(snake.getFoodPoint());
+	}
+	//Handle the snakeMoved event triggered by Snake
 	@Override
 	public void snakeMove(Snake snake){
 		/*
@@ -93,7 +113,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		 * Global.count : The total coordinates of the global game window, the default is 1000
 		 * this.snake.snakeBodyCount �� The total length of the snake's body
 		 * ground.rocksCount �� Total number of stones
-		 * 
+		 *
 		 */
 		if (Global.count - this.snake.snakeBodyCount - ground.treesCount < 3) {
 			snake.die();
@@ -109,45 +129,44 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				ground.createNewTree(snake);
 			}	
 			this.score +=10;
-			
+
 		}
 
-		if ((ground.isSnakeHitTree(snake) || snake.isEatBody()) && this.score > 0) {
+
+		if ((ground.isSnakeHitTree(snake) || snake.isCrashBody())) {
 			// Each time the snake crashes into something, it wiil not die immediately. Instead, a 'crash countdown'
 			// begins and reduces by one each move time of the game. The player sees this count down via the score
 			// message bar. If the snake is moved away before the count down reaches zero, it has escaped death.
-			this.score--;
-			this.isDeductingScore = true;
-			snake.backwardOneStep();
+
+			// message bar: note the user they can escape until the score to 0
+			this.countdownNumber--;
+			this.isCountingDown = true;
+			if (this.countdownNumber > 0) {
+				snake.backwardOneStep();
+			}
+
 		} else {
-			this.isDeductingScore = false;
+			this.isCountingDown = false;
+			this.countdownNumber = DEFAULT_COUNT_DOWN_NUMBER;
 		}
 
 		//Determine whether to eat the stone, if the stone is eaten, the snake will die
 		if (ground.isSnakeHitTree(snake)) {
-			if (this.score > 0) {
-				snake.backwardOneStep();
-			} else {
-				snake.die();
-				//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
-				writeMaxScore();
-				//A message box will pop up, prompting that the game is over and showing the score
-				JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score: " + score);
-			}
+			snake.die();
+			//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
+			writeMaxScore();
+			//A message box will pop up, prompting that the game is over and showing the score
+			JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score: " + score);
 		}
 
-		if(snake.isEatBody()) { //If the snake eats the body, it will die
-			if (this.score > 0) {
-				snake.backwardOneStep();
-			} else {
-				snake.die();
-				writeMaxScore();
-				JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score: " + score);
-			}
+		if(snake.isCrashBody()) { //If the snake eats the body, it will die
+			snake.die();
+			writeMaxScore();
+			JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score: " + score);
 		}
 		//
 		//If the snake dies, the screen will not be refreshed for the last time. If refreshed, the snake head will overlap the stone
-		if (!(ground.isSnakeHitTree(snake) | snake.isEatBody())) {
+		if (!(ground.isSnakeHitTree(snake) | snake.isCrashBody())) {
 			gamePanel.display(snake, food, ground);
 		}
 	}
@@ -164,7 +183,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		//Start the main window interface refresh thread, used to update the score
 		new Thread(thread).start();
 	}
-	
+
 	//Start a new game
 	public void newGame() {
 		//After starting a new game, clear the snake��s body
@@ -173,6 +192,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		snake.init();
 		//Zero score
 		score = 0;
+		// the valid cheat time reset to 3
+		cheatTime = 3;
 		//Reset the speed
 		snake.speed = 500;
 		//Get new food coordinates
@@ -181,7 +202,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		 * Determine whether the snake is dead, if it is,
 		 * Then the loop has been jumped out of the snake drive and will not trigger the snake��s monitoring
 		 * At this point, start calling to start the game, re-initialize the game, and re-monitor the snake movement
-		 * 
+		 *
 		 * If the snake is not in a dead state, the start game initialization is not performed, and the snake is in a normal monitoring state at this time
 		 * Just reinitialize the snake and food, score and start a new game
 		 */
@@ -219,7 +240,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void writeMaxScore() {
 		if (score > maxScore) {
 			maxScore = score;

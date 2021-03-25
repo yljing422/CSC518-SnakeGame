@@ -12,7 +12,7 @@ import snake.listener.SnakeListener;
 import snake.util.Global;
 
 public class Snake {
-	
+
 	//Define the direction variable to control the direction of the snake
 	public static final int UP = -1;
 	public static final int DOWN = 1;
@@ -24,7 +24,7 @@ public class Snake {
 	 * It is an invalid direction and is ignored. If it changes in different directions
 	 */
 	private int oldDirection, newDirection;
-	 
+
 	Ground ground = new Ground();
 	//Define a coordinate to store food coordinates
 	public Point point = null;
@@ -72,7 +72,7 @@ public class Snake {
 		life = true;
 		pause = false;
 		isPause = true;
-		
+
 	}
 
 	public Point getNextMove() {
@@ -123,33 +123,33 @@ public class Snake {
 		int x = body.getFirst().x;
 		int y = body.getFirst().y;
 		switch(oldDirection) {
-		case UP: //Move up
-			y--;
-			//When you get to the side, you can appear from the other side
-			if (y < 0) {
-				y = Global.HEIGHT - 1;
-			}
-			break;
-		case DOWN:
-			y++;
-			//When you get to the side, you can appear from the other side
-			if (y >= Global.HEIGHT) {
-				y = 0;
-			}
-			break;
-		case LEFT:
-			x--;
-			if (x < 0) {
-				x = Global.WIDTH - 1;
-			}
-			break;
-		case RIGHT:
-			x++;
-			if (x >= Global.WIDTH) {
-				x = 0;
-			}
-			break;
-		
+			case UP: //Move up
+				y--;
+				//When you get to the side, you can appear from the other side
+				if (y < 0) {
+					y = Global.HEIGHT - 1;
+				}
+				break;
+			case DOWN:
+				y++;
+				//When you get to the side, you can appear from the other side
+				if (y >= Global.HEIGHT) {
+					y = 0;
+				}
+				break;
+			case LEFT:
+				x--;
+				if (x < 0) {
+					x = Global.WIDTH - 1;
+				}
+				break;
+			case RIGHT:
+				x++;
+				if (x >= Global.WIDTH) {
+					x = 0;
+				}
+				break;
+
 		}
 		//Record the coordinates of the snake head
 		Point newHead = new Point(x, y);
@@ -174,7 +174,7 @@ public class Snake {
 	}
 
 	//Determine whether the snake has eaten the body
-	public boolean isEatBody() {
+	public boolean isCrashBody() {
 		//body.get(0)The coordinates of the snake’s head are stored,
 		//To exclude snake heads, start comparing from i=1
 		for (int i = 1; i < body.size(); i++) {
@@ -184,46 +184,46 @@ public class Snake {
 		}
 		return false;
 	}
-	
-	 /**
-     * Get the snakeBody list of the snake so that the food does not overlap with the snake body
-     * body represents the linked list of the snake body
-     * Return coordinates that do not overlap with the coordinates of the snake's body
-     */
-    public Point getFood(LinkedList<Point> body) {
-    	//Obtain coordinates that do not overlap with the tree
-    	point = ground.getPoint();
-        while (checkPoints(body)) {
-        	point = ground.getPoint();
-        }
-        // If the location of the food is found to overlap with the body of the snake, the location of the food will be re-randomized
-        return point;
+
+	/**
+	 * Get the snakeBody list of the snake so that the food does not overlap with the snake body
+	 * body represents the linked list of the snake body
+	 * Return coordinates that do not overlap with the coordinates of the snake's body
+	 */
+	public Point getFood(LinkedList<Point> body) {
+		//Obtain coordinates that do not overlap with the tree
+		point = ground.getPoint();
+		while (checkPoints(body)) {
+			point = ground.getPoint();
+		}
+		// If the location of the food is found to overlap with the body of the snake, the location of the food will be re-randomized
+		return point;
 		//Return the object itself, which is convenient when creating an instance
-    }
+	}
 	//Get food coordinates
-    public Point getFoodPoint() {
+	public Point getFoodPoint() {
 		return getFood(body);
 	}
 
-    /**
-     * Check whether there is a piece in the snake body link list that is the same as the current food coordinate
+	/**
+	 * Check whether there is a piece in the snake body link list that is the same as the current food coordinate
 	 * @return returns true if there are duplicates
 	 * Otherwise return false
-     */
-    public boolean checkPoints(LinkedList<Point> body) {
-    	
-        for (Point p : body)
-            if (p.getX() == point.getX() && p.getY() == point.getY())
-                return true;
-        // Whether the loop traverse is repeated
-        return false;
-    }
+	 */
+	public boolean checkPoints(LinkedList<Point> body) {
+
+		for (Point p : body)
+			if (p.getX() == point.getX() && p.getY() == point.getY())
+				return true;
+		// Whether the loop traverse is repeated
+		return false;
+	}
 
 	//Draw a snake
 	public void drawMe(Graphics g) {
 		for(Point p : body) {
 			snakebody = new ImageIcon("images/snakebody.png");
-		    snakebody.paintIcon(null, g, p.x * Global.CELL_SIZE, p.y * Global.CELL_SIZE);
+			snakebody.paintIcon(null, g, p.x * Global.CELL_SIZE, p.y * Global.CELL_SIZE);
 		}
 		// draw the head according to the direction
 		if (oldDirection == RIGHT) {
@@ -246,7 +246,7 @@ public class Snake {
 			downhead.paintIcon(null, g, getHead().x * Global.CELL_SIZE, getHead().y * Global.CELL_SIZE);
 		}
 	}
-	
+
 	//Get the coordinates of the snake head
 	public Point getHead() {
 		return body.getFirst();
@@ -255,12 +255,12 @@ public class Snake {
 	public void die() {
 		life = false;
 		isDie = true;
-		
+
 	}
 
 	//An internal class that drives the snake to move regularly
 	public class SnakerDriver implements Runnable{
-		
+
 		public void run() {
 			//The snake circulates when it is alive
 			while(life) {
@@ -300,7 +300,7 @@ public class Snake {
 			this.listener.add(l);
 		}
 	}
-	
+
 	public void getSnakeBodyCount() {
 		snakeBodyCount = body.size();
 	}

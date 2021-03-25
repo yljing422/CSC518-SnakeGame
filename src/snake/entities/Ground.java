@@ -12,14 +12,14 @@ import javax.swing.*;
 
 public class Ground {
 	/*
-	define a new int array to store trees,if there is a tree,the value is 1,otherwise is 0
-	it must be static to avoid cause collision when generate food
-    */
+	 *Define the array for storing the stone coordinates, 1 is the tree, 0 is the blank area
+	 *Be sure to use global static variables to always take up space. Otherwise it will make mistakes when producing food
+	 */
 	private static final int trees[][] =
 			new int[Global.WIDTH][Global.HEIGHT];
-	// Count the number of trees
+	//The number of stored trees
 	public int treesCount = 0;
-	// draw grid or not
+	//Whether to draw a grid
 	private boolean isDrawGriding;
 	//map = 1, means the map is selected
 	public int MAP = 1;
@@ -42,20 +42,19 @@ public class Ground {
 		//switch to map mode
 		switch(MAP) {
 			case 1:
-				map1(); //mode 1 use map 1
-				//get the number of trees
+				map1();
 				getTreesCount();
 				break;
 			case 2:
-				map2(); //mode 2 use map 2get the number of trees
+				map2(); //map2
 				getTreesCount();
 				break;
 			case 3:
-				map3(); //mode 3 random map get the number of trees
+				map3(); //Random map
 				getTreesCount();
 				break;
 			default :
-				map1(); //Ĭ�ϵ�ͼ1
+				map1(); //Default map 1
 				getTreesCount();
 				break;
 		}
@@ -135,7 +134,7 @@ public class Ground {
 	}
 	//draw grid and trees
 	public void drawMe(Graphics g) {
-		drawtrees(g);
+    drawTrees(g);
 		if (isDrawGriding) {
 			drawGriding(g);
 		}
