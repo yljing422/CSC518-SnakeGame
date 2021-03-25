@@ -3,6 +3,7 @@ package snake.game;
 import java.awt.EventQueue;
 
 import snake.view.MainWindow;
+
 /*
  * As the main method of the game, start the game,
  * through the start window, realize the start procedure
