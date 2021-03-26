@@ -41,6 +41,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public int score = 0;
 	//Store the highest score in history, this data is assigned by reading the file
 	public int maxScore;
+	// Display message in message bar on the top
+	public String message = "";
 	public Thread thread;
 	public boolean isDeductingScore = false;
 	public int cheatTime = 3;
@@ -119,6 +121,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		if (Global.count - this.snake.snakeBodyCount - ground.treesCount < 3) {
 			snake.die();
 			writeMaxScore();
+			// display the Message bar
+			this.message = "You have got the highest score, the game is over!";
 			//A message box will pop up, prompting that the game is over and showing the score
 			JOptionPane.showMessageDialog(gamePanel, "You have got the highest score, the game is over!\n       Game score: "+ score);
 		}
@@ -143,6 +147,9 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			this.isCountingDown = true;
 			if (this.countdownNumber > 0) {
 				snake.backwardOneStep();
+				this.message = "Count down: " + this.countdownNumber + "please move away";
+			} else {
+				this.message = "Count down: " + this.countdownNumber + " Time over! You are died.";
 			}
 		} else {
 			this.isCountingDown = false;
@@ -154,6 +161,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			snake.die();
 			//If the game score is greater than the highest score in the history, the current score is assigned to the highest score and written to the file
 			writeMaxScore();
+			// Display message to alert they crash and ask cheating
+			this.message = "Ouch! Snake hits the wall and died, the game is over! (Try cheating?)";
 			//A message box will pop up, prompting that the game is over and showing the score
 			JOptionPane.showMessageDialog(gamePanel, "Snake hits the wall and died, the game is over!\n       Game score: " + score);
 		}
@@ -161,6 +170,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		if(snake.isEatBody()) { //If the snake eats the body, it will die
 			snake.die();
 			writeMaxScore();
+			// Display message to alert they crash and ask cheating
+			this.message = "Ouch! Snake bites to death and the game is over! (Try cheating?)";
 			JOptionPane.showMessageDialog(gamePanel, "The snake bites to death and the game is over!\n       Game score: " + score);
 		}
 		//
