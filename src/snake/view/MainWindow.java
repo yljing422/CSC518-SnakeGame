@@ -236,7 +236,7 @@ public class MainWindow extends JFrame{
 		);
 		panel_display.setLayout(gl_panel_display);
 		
-		JLabel label_set = new JLabel("  Setting items:");
+		JLabel label_set = new JLabel("Setting items:");
 		label_set.setFocusable(false);
 		
 		JSeparator separator = new JSeparator();
@@ -343,7 +343,7 @@ public class MainWindow extends JFrame{
 		});
 		radioButton_speed1.setSelected(true);
 		radioButton_speed1.setFocusable(false);
-		
+
 		JRadioButton radioButton_speed2 = new JRadioButton("Medium");
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -354,11 +354,11 @@ public class MainWindow extends JFrame{
 		});
 		radioButton_speed2.setFocusable(false);
 		
-		JRadioButton radioButton_speed3 = new JRadioButton("Fast        ");
+		JRadioButton radioButton_speed3 = new JRadioButton("Fast");
 		radioButton_speed3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 100;
+					snake.speed = 200;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
@@ -368,6 +368,9 @@ public class MainWindow extends JFrame{
 		groupSpeed.add(radioButton_speed1);
 		groupSpeed.add(radioButton_speed2);
 		groupSpeed.add(radioButton_speed3);
+
+
+
 		
 		panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
 		panel_setSpeed.add(label_5);
@@ -403,7 +406,7 @@ public class MainWindow extends JFrame{
 			}
 		});
 		radioButton_map2.setFocusable(false);
-		
+
 		JRadioButton radioButton_map3 = new JRadioButton("Trees");
 		radioButton_map3.addMouseListener(new MouseAdapter() {
 			@Override
