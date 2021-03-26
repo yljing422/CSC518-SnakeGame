@@ -192,8 +192,6 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		score = 0;
 		// the valid cheat time reset to 3
 		cheatTime = 3;
-		//Reset the speed
-		snake.speed = 500;
 		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
 		/*

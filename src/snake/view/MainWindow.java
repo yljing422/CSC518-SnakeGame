@@ -337,7 +337,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 300;
+					snake.speed = 500;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
@@ -348,7 +348,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 200;
+					snake.speed = 300;
 					txt_speed.setText(snake.speed + " ms / grid");
 			}
 		});
