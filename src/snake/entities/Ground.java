@@ -55,7 +55,7 @@ public class Ground {
 				getTreesCount();
 				break;
 			default :
-				map1(); //Ĭ�ϵ�ͼ1
+				map1(); //default is map1
 				getTreesCount();
 				break;
 		}
@@ -75,7 +75,7 @@ public class Ground {
 	public void map2() {
 		clear();
 	}
-	//map 3  set 40 trees randomly
+	//map 3  create a random tree
 	public void map3() {
 		Random random = new Random();
 		int x = random.nextInt(Global.WIDTH);
@@ -94,12 +94,14 @@ public class Ground {
 				}
 	}
 
-	// use random sampling to improve
-	public boolean createNewTree(Snake snake) {
-		Random random = new Random();
+	// In MAP3, whenever snake eat food, this function is called.
+	// This function will first generate a random point (In a point where no tree is there),
+	// if it not overlapped with snake body, a tree is successfully generated.
+	public void createNewTree(Snake snake) {
 		while(true) {
-			int p = random.nextInt(Global.WIDTH);
-			int q = random.nextInt(Global.HEIGHT);
+			Point point = getPoint();
+			int p = point.x;
+			int q = point.y;
 			trees[p][q] = 1;
 			boolean ishit = isSnakeHitTree(snake);
 			if(!ishit) {
@@ -107,7 +109,6 @@ public class Ground {
 			}
 			trees[p][q] = 0;
 		}
-		return true;
 	}
 	//check whether the snake hit a tree
 	//by comparing the snake's body with positions of all trees
