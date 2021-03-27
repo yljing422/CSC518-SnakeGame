@@ -146,7 +146,7 @@ public class Ground {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
 				if (trees[x][y] == 1) {
-					ImageIcon icon2 =new ImageIcon("images/tree.jpeg");
+					ImageIcon icon2 =new ImageIcon("images/tree.png");
 					g.drawImage(icon2.getImage(),x * Global.CELL_SIZE, y * Global.CELL_SIZE, Global.CELL_SIZE, Global.CELL_SIZE,img);
 				}
 			}
