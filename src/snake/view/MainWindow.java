@@ -3,18 +3,19 @@ package snake.view;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.awt.Image;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -44,6 +45,16 @@ public class MainWindow extends JFrame{
 	public JTextField txt_score;
 	private JTextField txt_speed;
 	private JTextField txt_maxScore;
+	private ImageIcon optionButton;  
+	private ImageIcon onButton;
+	private ImageIcon offButton;
+	private ImageIcon gridLabel;
+	private ImageIcon mapLabel;
+	private ImageIcon map1Label;
+	private ImageIcon map2Label;
+	private ImageIcon treeLabel;
+	private ImageIcon bg;
+	private Image bg1;
 	    
 	GamePanel gamePanel = new GamePanel();
 	Controller controller = new Controller(snake, food, ground, gamePanel);
@@ -88,7 +99,13 @@ public class MainWindow extends JFrame{
 		);
 		panel.setLayout(gl_panel);
 		
+		optionButton = new ImageIcon("images/option.png");
+
+		bg = new ImageIcon("images/background2.png");
+		bg1 = bg.getImage();
+
 		JPanel panel_1 = new JPanel();
+		
 		panel_1.setFocusable(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -117,9 +134,17 @@ public class MainWindow extends JFrame{
 		panel_control.setFocusable(false);
 		panel_control.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
-		JPanel panel_set = new JPanel();
+		JPanel panel_set = new JPanel(){
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(bg1, 0, 0, null);
+            }
+        };
+		
 		panel_set.setFocusable(false);
 		panel_set.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+
 		
 		JPanel panel_display = new JPanel();
 		panel_display.setFocusable(false);
@@ -236,19 +261,23 @@ public class MainWindow extends JFrame{
 		);
 		panel_display.setLayout(gl_panel_display);
 		
-		JLabel label_set = new JLabel("  Setting items:");
+		JLabel label_set = new JLabel(optionButton, JLabel.CENTER);
 		label_set.setFocusable(false);
 		
 		JSeparator separator = new JSeparator();
 		
-		JCheckBox checkBox_isGriding = new JCheckBox("Show grid");
+		onButton = new ImageIcon("images/on.png");
+		offButton = new ImageIcon("images/off.png");
+		JToggleButton checkBox_isGriding = new JToggleButton(offButton);
 		
 		checkBox_isGriding.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (checkBox_isGriding.isSelected()) {
+					checkBox_isGriding.setIcon(onButton);
 					ground.drawGriding();
 				}else {
+					checkBox_isGriding.setIcon(offButton);
 					ground.notDrawGriding();
 				}
 				
@@ -258,128 +287,133 @@ public class MainWindow extends JFrame{
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel label_isGriding = new JLabel(" Display the grid:");
+		gridLabel = new ImageIcon("images/show_grid.png");
+		JLabel label_isGriding = new JLabel(gridLabel);
 		label_isGriding.setFocusable(false);
 		
 		JSeparator separator_2 = new JSeparator();
 		
-		JPanel panel_setMap = new JPanel();
-		panel_setMap.setFocusable(false);
+		JPanel panel_setMap1 = new JPanel();
+		JPanel panel_setMap2 = new JPanel();
+		panel_setMap1.setFocusable(false);
+		panel_setMap2.setFocusable(false);
 		
-		JPanel panel_setSpeed = new JPanel();
-		panel_setSpeed.setFocusable(false);
-		panel_setSpeed.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		//JPanel panel_setSpeed = new JPanel();
+		// panel_setSpeed.setFocusable(false);
+		// panel_setSpeed.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		GroupLayout gl_panel_set = new GroupLayout(panel_set);
 		gl_panel_set.setHorizontalGroup(
 			gl_panel_set.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_set.createSequentialGroup()
 					.addGroup(gl_panel_set.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_panel_set.createSequentialGroup()
-							.addGap(10)
+							.addGap(100)
 							.addComponent(label_set))
 						.addGroup(gl_panel_set.createSequentialGroup()
-							.addGap(20)
+							.addGap(40)
 							.addComponent(label_isGriding)
+							.addGap(20)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(checkBox_isGriding))
 						.addGroup(gl_panel_set.createSequentialGroup()
-							.addGap(20)
+							.addGap(45)
 							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE,
-									222, GroupLayout.PREFERRED_SIZE))
+									2, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_set.createSequentialGroup()
-							.addGap(20)
 							.addComponent(separator_2, GroupLayout.PREFERRED_SIZE,
-									224, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_set.createSequentialGroup()
-							.addGap(14)
-							.addComponent(panel_setSpeed, GroupLayout.PREFERRED_SIZE,
-									264, GroupLayout.PREFERRED_SIZE))
+									2, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_set.createSequentialGroup())
 						.addGroup(gl_panel_set.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panel_setMap, GroupLayout.DEFAULT_SIZE,
-									GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-					.addGap(10))
+						    .addGap(40)
+							.addComponent(panel_setMap1, GroupLayout.DEFAULT_SIZE,
+									GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(gl_panel_set.createSequentialGroup()
+							.addContainerGap()
+							.addGap(40)
+							.addComponent(panel_setMap2, GroupLayout.DEFAULT_SIZE,
+									GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(gl_panel_set.createSequentialGroup()
+						.addContainerGap())))
 				.addGroup(gl_panel_set.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(separator, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(separator, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
 		);
 		gl_panel_set.setVerticalGroup(
 			gl_panel_set.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_set.createSequentialGroup()
-					.addGap(10)
+					.addGap(15)
 					.addComponent(label_set)
-					.addGap(10)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_set.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_isGriding)
+					.addGroup(gl_panel_set.createParallelGroup()
+					    .addGap(5)
+					    .addComponent(label_isGriding)
 						.addComponent(checkBox_isGriding))
-					.addGap(12)
-					.addComponent(separator_2, GroupLayout.PREFERRED_SIZE,
+					.addComponent(separator_2, GroupLayout.DEFAULT_SIZE,
 							GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_setMap, GroupLayout.PREFERRED_SIZE,
-							37, GroupLayout.PREFERRED_SIZE)
-					.addGap(12)
-					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE,
-							2, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_setSpeed, GroupLayout.DEFAULT_SIZE,
-							34, Short.MAX_VALUE)
-					.addGap(14))
+					.addComponent(panel_setMap1, GroupLayout.DEFAULT_SIZE,
+							0, 0)
+					.addComponent(separator_1, GroupLayout.DEFAULT_SIZE,
+							0, 0)
+					.addComponent(panel_setMap2, GroupLayout.DEFAULT_SIZE,
+							0, 0)
+					.addComponent(separator_1, GroupLayout.DEFAULT_SIZE,
+							0, GroupLayout.DEFAULT_SIZE))
 		);
 		
-		JLabel label_5 = new JLabel("Speed:");
-		label_5.setFocusable(false);
+		// JLabel label_5 = new JLabel("Speed:");
+		// label_5.setFocusable(false);
 		
-		JRadioButton radioButton_speed1 = new JRadioButton("Slow");
-		radioButton_speed1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-					snake.speed = 300;
-					txt_speed.setText(snake.speed + " ms / grid");
-			}
-		});
-		radioButton_speed1.setSelected(true);
-		radioButton_speed1.setFocusable(false);
+		// JRadioButton radioButton_speed1 = new JRadioButton("Slow");
+		// radioButton_speed1.addMouseListener(new MouseAdapter() {
+		// 	@Override
+		// 	public void mouseClicked(MouseEvent e) {
+		// 			snake.speed = 300;
+		// 			txt_speed.setText(snake.speed + " ms / grid");
+		// 	}
+		// });
+		// radioButton_speed1.setSelected(true);
+		// radioButton_speed1.setFocusable(false);
 		
-		JRadioButton radioButton_speed2 = new JRadioButton("Medium");
-		radioButton_speed2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-					snake.speed = 200;
-					txt_speed.setText(snake.speed + " ms / grid");
-			}
-		});
-		radioButton_speed2.setFocusable(false);
+		// JRadioButton radioButton_speed2 = new JRadioButton("Medium");
+		// radioButton_speed2.addMouseListener(new MouseAdapter() {
+		// 	@Override
+		// 	public void mouseClicked(MouseEvent e) {
+		// 			snake.speed = 200;
+		// 			txt_speed.setText(snake.speed + " ms / grid");
+		// 	}
+		// });
+		// radioButton_speed2.setFocusable(false);
 		
-		JRadioButton radioButton_speed3 = new JRadioButton("Fast        ");
-		radioButton_speed3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-					snake.speed = 100;
-					txt_speed.setText(snake.speed + " ms / grid");
-			}
-		});
-		radioButton_speed3.setFocusable(false);
+		// JRadioButton radioButton_speed3 = new JRadioButton("Fast");
+		// radioButton_speed3.addMouseListener(new MouseAdapter() {
+		// 	@Override
+		// 	public void mouseClicked(MouseEvent e) {
+		// 			snake.speed = 100;
+		// 			txt_speed.setText(snake.speed + " ms / grid");
+		// 	}
+		// });
+		// radioButton_speed3.setFocusable(false);
 		
-		ButtonGroup groupSpeed = new ButtonGroup();
-		groupSpeed.add(radioButton_speed1);
-		groupSpeed.add(radioButton_speed2);
-		groupSpeed.add(radioButton_speed3);
+		//ButtonGroup groupSpeed = new ButtonGroup();
+		//groupSpeed.add(radioButton_speed1);
+		//groupSpeed.add(radioButton_speed2);
+		//groupSpeed.add(radioButton_speed3);
 		
-		panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
-		panel_setSpeed.add(label_5);
-		panel_setSpeed.add(radioButton_speed1);
-		panel_setSpeed.add(radioButton_speed2);
-		panel_setSpeed.add(radioButton_speed3);
+		// panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
+		// panel_setSpeed.add(label_5);
+		// panel_setSpeed.add(radioButton_speed1);
+		// panel_setSpeed.add(radioButton_speed2);
+		// panel_setSpeed.add(radioButton_speed3);
 		
-		
-		JLabel label_setMap = new JLabel("Show map:");
+		mapLabel = new ImageIcon("images/show_map.png");
+		JLabel label_setMap = new JLabel(mapLabel);
 		label_setMap.setFocusable(false);
 		
-		JRadioButton radioButton_map1 = new JRadioButton("Map1");
+		map1Label = new ImageIcon("images/map1.png");
+		JLabel label_map1 = new JLabel(map1Label);
+		JRadioButton radioButton_map1 = new JRadioButton();
 	
 		radioButton_map1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -392,7 +426,9 @@ public class MainWindow extends JFrame{
 		
 		radioButton_map1.setFocusable(false);
 		
-		JRadioButton radioButton_map2 = new JRadioButton("Map2");
+		map2Label = new ImageIcon("images/map2.png");
+		JLabel label_map2 = new JLabel(map2Label);
+		JRadioButton radioButton_map2 = new JRadioButton();
 		radioButton_map2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -403,8 +439,10 @@ public class MainWindow extends JFrame{
 			}
 		});
 		radioButton_map2.setFocusable(false);
-		
-		JRadioButton radioButton_map3 = new JRadioButton("Trees");
+
+		treeLabel = new ImageIcon("images/treeLabel.png");
+		JLabel label_tree = new JLabel(treeLabel);
+		JRadioButton radioButton_map3 = new JRadioButton();
 		radioButton_map3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -418,12 +456,14 @@ public class MainWindow extends JFrame{
 		groupMap.add(radioButton_map1);
 		groupMap.add(radioButton_map2);
 		groupMap.add(radioButton_map3);
-		
-		panel_setMap.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		panel_setMap.add(label_setMap);
-		panel_setMap.add(radioButton_map1);
-		panel_setMap.add(radioButton_map2);
-		panel_setMap.add(radioButton_map3);
+	
+		panel_setMap1.add(label_setMap);
+		panel_setMap2.add(radioButton_map1);
+		panel_setMap2.add(label_map1);
+		panel_setMap2.add(radioButton_map2);
+		panel_setMap2.add(label_map2);
+		panel_setMap1.add(radioButton_map3);
+		panel_setMap1.add(label_tree);
 		panel_set.setLayout(gl_panel_set);
 		
 		JButton button_pause = new JButton("S/P");
