@@ -194,6 +194,11 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		score = 0;
 		// the valid cheat time reset to 3
 		cheatTime = 3;
+		// clear random generated trees and generate one random tree in a new game.
+		if (ground.MAP == 3) {
+			ground.clear();
+			ground.createNewTree(snake);
+		}
 		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
 
