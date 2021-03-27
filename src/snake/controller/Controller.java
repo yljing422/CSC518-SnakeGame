@@ -21,6 +21,7 @@ import snake.entities.Snake;
 import snake.listener.SnakeListener;
 import snake.util.Global;
 import snake.view.GamePanel;
+import snake.view.MainWindow;
 
 /*Controller
 * Control Ground, Snake, Food<BR>
@@ -180,6 +181,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		snake.start();
 		//Start the main window interface refresh thread, used to update the score
 		new Thread(thread).start();
+
 	}
 	
 	//Start a new game
@@ -192,10 +194,14 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		score = 0;
 		// the valid cheat time reset to 3
 		cheatTime = 3;
-		//Reset the speed
-		snake.speed = 500;
+		// clear random generated trees and generate one random tree in a new game.
+		if (ground.MAP == 3) {
+			ground.clear();
+			ground.createNewTree(snake);
+		}
 		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
+
 		/*
 		 * Determine whether the snake is dead, if it is,
 		 * Then the loop has been jumped out of the snake drive and will not trigger the snake��s monitoring

@@ -443,6 +443,7 @@ public class MainWindow extends JFrame{
 		treeLabel = new ImageIcon("images/treeLabel.png");
 		JLabel label_tree = new JLabel(treeLabel);
 		JRadioButton radioButton_map3 = new JRadioButton();
+
 		radioButton_map3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
