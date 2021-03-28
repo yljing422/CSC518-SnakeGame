@@ -231,7 +231,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 300;
+					snake.speed = 500;
 					txt_speed.setText(snake.speed + " ms/grid");
 			}
 		});
@@ -244,7 +244,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 200;
+					snake.speed = 300;
 					txt_speed.setText(snake.speed + " ms/grid");
 			}
 		});
@@ -256,7 +256,7 @@ public class MainWindow extends JFrame{
 		radioButton_speed3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					snake.speed = 100;
+					snake.speed = 200;
 					txt_speed.setText(snake.speed + " ms/grid");
 			}
 		});
@@ -611,14 +611,18 @@ public class MainWindow extends JFrame{
 		JLabel label_W = new JLabel("Press W to restart");
 		label_W.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_W.setFocusable(false);
-		
-		JLabel label_2 = new JLabel("Tree map generate tree when eat food");
-		label_2.setFont(new Font("American Typewriter", Font.PLAIN, 11));
-		label_2.setFocusable(false);
+
+//		JLabel label_2 = new JLabel("Tree map generate tree when eat food");
+//		label_2.setFont(new Font("American Typewriter", Font.PLAIN, 11));
+//		label_2.setFocusable(false);
 
 		JLabel label_C = new JLabel("Press C to cheat, only 3 chances");
 		label_C.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_C.setFocusable(false);
+
+		JLabel label_T = new JLabel("Press T switch to Tree Map");
+		label_T.setFont(new Font("American Typewriter", Font.PLAIN, 11));
+		label_T.setFocusable(false);
 
 		/*label_2.setHorizontalAlignment(SwingConstants.LEFT);
 		label_2.setInheritsPopupMenu(false);
@@ -641,8 +645,8 @@ public class MainWindow extends JFrame{
 								.addComponent(label_S)
 								.addComponent(label_D)
 								.addComponent(label_W)
-								.addComponent(label_2)
 								.addComponent(label_C)
+								.addComponent(label_T)
 							)))
 					.addContainerGap())
 		);
@@ -652,8 +656,8 @@ public class MainWindow extends JFrame{
 					.addGap(20)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
 							21, GroupLayout.PREFERRED_SIZE)
-					.addComponent(label_2, GroupLayout.PREFERRED_SIZE,
-							21, GroupLayout.PREFERRED_SIZE)
+//					.addComponent(label_2, GroupLayout.PREFERRED_SIZE,
+//							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label, GroupLayout.PREFERRED_SIZE,
 							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label_A, GroupLayout.PREFERRED_SIZE,
@@ -665,6 +669,8 @@ public class MainWindow extends JFrame{
 					.addComponent(label_S,GroupLayout.PREFERRED_SIZE,
 							22, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label_C,GroupLayout.PREFERRED_SIZE,
+							22, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label_T,GroupLayout.PREFERRED_SIZE,
 							22, GroupLayout.PREFERRED_SIZE)
 				)
 		);

@@ -44,6 +44,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public Thread thread;
 	public boolean isDeductingScore = false;
 	public int cheatTime = 3;
+	public int currentMap;
 
 	public boolean isCountingDown= false;
 	public int countdownNumber = DEFAULT_COUNT_DOWN_NUMBER;
@@ -67,7 +68,10 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	@Override
 	//Handling key events
 	public void keyPressed(KeyEvent e) {
-		
+		if (ground.MAP != 3) {
+			currentMap = ground.MAP;
+		}
+
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			snake.chanceDirection(Snake.UP);
@@ -102,6 +106,14 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				// message bar: will note that the user have no chance to cheat.
 			}
 			break;
+		case KeyEvent.VK_T:	//T for switch to tree map
+			if (ground.MAP != 3) {
+				ground.MAP = 3;
+			} else {
+				ground.MAP = currentMap;
+			}
+			ground.init();
+			break;
 		}
 	}
    //Handle the snakeMoved event triggered by Snake
@@ -112,8 +124,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		 * When the body occupies all the space and there is no place to put food
 		 * game over
 		 * Global.count : The total coordinates of the global game window, the default is 1000
-		 * this.snake.snakeBodyCount �� The total length of the snake's body
-		 * ground.rocksCount �� Total number of stones
+		 * this.snake.snakeBodyCount: the total length of the snake's body
+		 * ground.rocksCount: Total number of stones
 		 * 
 		 */
 		if (Global.count - this.snake.snakeBodyCount - ground.treesCount < 3) {
