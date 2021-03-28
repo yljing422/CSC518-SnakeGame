@@ -53,8 +53,18 @@ public class MainWindow extends JFrame{
 	private ImageIcon map1Label;
 	private ImageIcon map2Label;
 	private ImageIcon treeLabel;
-	private ImageIcon bg;
-	private Image bg1;
+	private ImageIcon newGame;
+	private ImageIcon start;
+	private ImageIcon pause;
+	private ImageIcon bg2;
+	private ImageIcon bg1;
+	private ImageIcon bg3;
+	private ImageIcon bg4;
+	private Image bg1_img;
+	private Image bg2_img;
+	private Image bg3_img;
+	private Image bg4_img;
+	Boolean isPause = false;
 	    
 	GamePanel gamePanel = new GamePanel();
 	Controller controller = new Controller(snake, food, ground, gamePanel);
@@ -101,9 +111,6 @@ public class MainWindow extends JFrame{
 		
 		optionButton = new ImageIcon("images/option.png");
 
-		bg = new ImageIcon("images/background2.png");
-		bg1 = bg.getImage();
-
 		JPanel panel_1 = new JPanel();
 		
 		panel_1.setFocusable(false);
@@ -126,27 +133,52 @@ public class MainWindow extends JFrame{
 					.addContainerGap())
 		);
 		
-		JPanel lable = new JPanel();
+		bg4 = new ImageIcon("images/background4.png");
+		bg4_img = bg4.getImage();
+		JPanel lable = new JPanel() {
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(bg4_img, 0, -3, null);
+            }
+		};
 		lable.setFocusable(false);
 		lable.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
-		JPanel panel_control = new JPanel();
+		bg3 = new ImageIcon("images/background3.png");
+		bg3_img = bg3.getImage();
+		JPanel panel_control = new JPanel(){
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(bg3_img, 0, 0, null);
+            }
+		};
 		panel_control.setFocusable(false);
 		panel_control.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
+		bg2 = new ImageIcon("images/background2.png");
+		bg2_img = bg2.getImage();
 		JPanel panel_set = new JPanel(){
 			@Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(bg1, 0, 0, null);
+                g.drawImage(bg2_img, 0, 0, null);
             }
         };
 		
 		panel_set.setFocusable(false);
 		panel_set.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
-		
-		JPanel panel_display = new JPanel();
+		bg1 = new ImageIcon("images/background1.png");
+		bg1_img = bg1.getImage();
+		JPanel panel_display = new JPanel(){
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(bg1_img, 0, 0, null);
+            }
+		};
 		panel_display.setFocusable(false);
 		panel_display.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -161,8 +193,8 @@ public class MainWindow extends JFrame{
 								216, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel_control, 0, 0, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lable, GroupLayout.PREFERRED_SIZE,
-							GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lable, GroupLayout.DEFAULT_SIZE,
+							GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
 					.addGap(19))
 		);
 		gl_panel_1.setVerticalGroup(
@@ -174,7 +206,6 @@ public class MainWindow extends JFrame{
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(panel_display, 
 									GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(panel_control, 
 									GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
 						.addComponent(lable, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
@@ -186,8 +217,6 @@ public class MainWindow extends JFrame{
 		lable_score.setHorizontalAlignment(SwingConstants.LEFT);
 		lable_score.setHorizontalTextPosition(SwingConstants.CENTER);
 		lable_score.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		
 		
 		txt_score = new JTextField();
 		txt_score.setText("0");
@@ -443,7 +472,6 @@ public class MainWindow extends JFrame{
 		treeLabel = new ImageIcon("images/treeLabel.png");
 		JLabel label_tree = new JLabel(treeLabel);
 		JRadioButton radioButton_map3 = new JRadioButton();
-
 		radioButton_map3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -466,44 +494,58 @@ public class MainWindow extends JFrame{
 		panel_setMap1.add(radioButton_map3);
 		panel_setMap1.add(label_tree);
 		panel_set.setLayout(gl_panel_set);
-		
-		JButton button_pause = new JButton("S/P");
+        
+		start = new ImageIcon("images/start.png");
+		pause = new ImageIcon("images/pause.png");
+		JToggleButton button_pause = new JToggleButton(start);
 		button_pause.setFocusable(false);
 		button_pause.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+			    isPause = !isPause;
+				if (isPause) {
+					button_pause.setIcon(pause);
+				} else {
+					button_pause.setIcon(start);
+				}
 				snake.changePause();
 			}
 		});
 		button_pause.setFocusPainted(false);
+		
 
-		JButton button_newGame = new JButton("New game");
+		newGame = new ImageIcon("images/newGame.png");
+		JButton button_newGame = new JButton(newGame);
 		button_newGame.setFocusable(false);
 		button_newGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				controller.newGame();
+				button_pause.setIcon(start);
+				isPause = false;
 				
 			}
 		});
 		button_newGame.setFocusPainted(false);
 		GroupLayout gl_panel_control = new GroupLayout(panel_control);
 		gl_panel_control.setHorizontalGroup(
-			gl_panel_control.createParallelGroup(Alignment.TRAILING)
+			gl_panel_control.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_control.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap()
+					.addGap(30)
 					.addComponent(button_newGame, GroupLayout.PREFERRED_SIZE,
 							95, GroupLayout.PREFERRED_SIZE)
-					.addGap(3)
+					.addGap(20)
 					.addComponent(button_pause, GroupLayout.PREFERRED_SIZE,
-							94, GroupLayout.PREFERRED_SIZE)
+							40, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		gl_panel_control.setVerticalGroup(
 			gl_panel_control.createParallelGroup(Alignment.TRAILING)
 				.addGroup(Alignment.LEADING, gl_panel_control.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_control.createParallelGroup(Alignment.BASELINE)
+					.addGap(20)
+					.addGroup(gl_panel_control.createParallelGroup(Alignment.LEADING)
 						.addComponent(button_newGame, GroupLayout.PREFERRED_SIZE,
 								44, GroupLayout.PREFERRED_SIZE)
 						.addComponent(button_pause, GroupLayout.PREFERRED_SIZE, 
@@ -512,28 +554,40 @@ public class MainWindow extends JFrame{
 		);
 		panel_control.setLayout(gl_panel_control);
 		
-		JLabel lblNewLabel = new JLabel("Description:");
+		JLabel lblNewLabel = new JLabel("INSTRUCTIONS");
+		lblNewLabel.setFont(new Font("American Typewriter", Font.BOLD, 12));
+		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFocusable(false);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		JLabel label = new JLabel("Use arrow keys to control direction");
+		label.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label.setFocusable(false);
 
 		JLabel label_A = new JLabel("Press A to slow down");
+		label_A.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_A.setFocusable(false);
 
 		JLabel label_D = new JLabel("Press D to speed up");
+		label_D.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_D.setFocusable(false);
 		
 		JLabel label_S = new JLabel("Press S to pause/continue");
+		label_S.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_S.setFocusable(false);
 		
 		JLabel label_W = new JLabel("Press W to restart");
+		label_W.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_W.setFocusable(false);
 		
 		JLabel label_2 = new JLabel("Tree map generate tree when eat food");
+		label_2.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_2.setFocusable(false);
+
+		JLabel label_C = new JLabel("Press C to cheat, only 3 chances");
+		label_C.setFont(new Font("American Typewriter", Font.PLAIN, 11));
+		label_C.setFocusable(false);
 
 		/*label_2.setHorizontalAlignment(SwingConstants.LEFT);
 		label_2.setInheritsPopupMenu(false);
@@ -544,9 +598,9 @@ public class MainWindow extends JFrame{
 		gl_lable.setHorizontalGroup(
 			gl_lable.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_lable.createSequentialGroup()
-					.addGroup(gl_lable.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_lable.createParallelGroup(Alignment.CENTER)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
-								80, GroupLayout.PREFERRED_SIZE)
+								120, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_lable.createSequentialGroup()
 							.addGap(26)
 							.addGroup(gl_lable.createParallelGroup(Alignment.LEADING)
@@ -557,28 +611,31 @@ public class MainWindow extends JFrame{
 								.addComponent(label_D)
 								.addComponent(label_W)
 								.addComponent(label_2)
+								.addComponent(label_C)
 							)))
 					.addContainerGap())
 		);
 		gl_lable.setVerticalGroup(
 			gl_lable.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_lable.createSequentialGroup()
-					.addGap(2)
+					.addGap(20)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+							21, GroupLayout.PREFERRED_SIZE)
+					//.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(label_2, GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
+							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label, GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
+							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label_A, GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
+							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label_D, GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
+							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label_W, GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
+							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label_S,GroupLayout.PREFERRED_SIZE,
-							26, GroupLayout.PREFERRED_SIZE)
+							22, GroupLayout.PREFERRED_SIZE)
+					.addComponent(label_C,GroupLayout.PREFERRED_SIZE,
+							22, GroupLayout.PREFERRED_SIZE)
 				)
 		);
 		lable.setLayout(gl_lable);
@@ -614,6 +671,4 @@ public class MainWindow extends JFrame{
 		}
 		
 	}
-
 }
-
