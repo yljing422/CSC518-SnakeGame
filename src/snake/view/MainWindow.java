@@ -211,6 +211,67 @@ public class MainWindow extends JFrame{
 						.addComponent(lable, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
 					.addContainerGap())
 		);
+
+		JPanel panel_setSpeed = new JPanel();
+		panel_setSpeed.setFocusable(false);
+		panel_setSpeed.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+		JLabel label_5 = new JLabel("SPEED:");
+		label_5.setFont(new Font("American Typewriter", Font.BOLD, 13));
+		label_5.setForeground(Color.GREEN);
+		label_5.setFocusable(false);
+
+		JLabel label_slow_stars = new JLabel(new ImageIcon("images/slow_stars.png"));
+		JLabel label_medium_stars = new JLabel(new ImageIcon("images/medium_stars.png"));
+		JLabel label_fast_stars = new JLabel(new ImageIcon("images/fast_stars.png"));
+		
+		JRadioButton radioButton_speed1 = new JRadioButton("Slow");
+		radioButton_speed1.setFont(new Font("American Typewriter", Font.BOLD, 13));
+		radioButton_speed1.setForeground(Color.GREEN);
+		radioButton_speed1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					snake.speed = 300;
+					txt_speed.setText(snake.speed + " ms/grid");
+			}
+		});
+		radioButton_speed1.setSelected(true);
+		radioButton_speed1.setFocusable(false);
+		
+		JRadioButton radioButton_speed2 = new JRadioButton("Medium");
+		radioButton_speed2.setFont(new Font("American Typewriter", Font.BOLD, 13));
+		radioButton_speed2.setForeground(Color.GREEN);
+		radioButton_speed2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					snake.speed = 200;
+					txt_speed.setText(snake.speed + " ms/grid");
+			}
+		});
+		radioButton_speed2.setFocusable(false);
+		
+		JRadioButton radioButton_speed3 = new JRadioButton("Fast");
+		radioButton_speed3.setFont(new Font("American Typewriter", Font.BOLD, 13));
+		radioButton_speed3.setForeground(Color.GREEN);
+		radioButton_speed3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					snake.speed = 100;
+					txt_speed.setText(snake.speed + " ms/grid");
+			}
+		});
+		radioButton_speed3.setFocusable(false);
+		
+		ButtonGroup groupSpeed = new ButtonGroup();
+		groupSpeed.add(radioButton_speed1);
+		groupSpeed.add(radioButton_speed2);
+		groupSpeed.add(radioButton_speed3);
+		
+		panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
+		panel_setSpeed.add(label_5);
+		panel_setSpeed.add(radioButton_speed1);
+		panel_setSpeed.add(radioButton_speed2);
+		panel_setSpeed.add(radioButton_speed3);
 		
 		JLabel lable_score = new JLabel("Score:");
 		lable_score.setFocusable(false);
@@ -234,10 +295,14 @@ public class MainWindow extends JFrame{
 		txt_maxScore.setColumns(10);
 		
 		JLabel label_speed = new JLabel("Speed:");
+		label_speed.setFont(new Font("American Typewriter", Font.BOLD, 14));
+		label_speed.setForeground(Color.blue);
 		label_speed.setFocusable(false);
 		
 		txt_speed = new JTextField();
-		txt_speed.setText(snake.speed + "ms / grid");
+		txt_speed.setText(snake.speed + "ms/grid");
+		txt_speed.setFont(new Font("American Typewriter", Font.ITALIC, 12));
+		txt_speed.setForeground(Color.blue);
 		txt_speed.setEditable(false);
 		txt_speed.setFocusable(false);
 		lable_score.setLabelFor(txt_speed);
@@ -246,47 +311,61 @@ public class MainWindow extends JFrame{
 		gl_panel_display.setHorizontalGroup(
 			gl_panel_display.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_display.createSequentialGroup()
-					.addGap(6)
+					.addGap(15)
 					.addGroup(gl_panel_display.createParallelGroup(Alignment.LEADING)
-						.addComponent(lable_score, 
-								GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_maxScore, 
-								GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+						.addComponent(radioButton_speed1, 
+								GroupLayout.DEFAULT_SIZE, 50, GroupLayout.DEFAULT_SIZE)
+						.addComponent(radioButton_speed2, 
+								GroupLayout.DEFAULT_SIZE, 50, GroupLayout.DEFAULT_SIZE)
+						.addComponent(radioButton_speed3, 
+								GroupLayout.DEFAULT_SIZE, 50, GroupLayout.DEFAULT_SIZE)
 						.addComponent(label_speed, 
-								GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
+								GroupLayout.DEFAULT_SIZE, 75, GroupLayout.DEFAULT_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_display.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(txt_maxScore, 
-								GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+						.addComponent(label_slow_stars,  
+								GroupLayout.DEFAULT_SIZE, 75, GroupLayout.DEFAULT_SIZE)
 						.addComponent(txt_speed, 
-								GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-						.addComponent(txt_score))
+								GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+						.addComponent(label_fast_stars, GroupLayout.DEFAULT_SIZE, 75, GroupLayout.DEFAULT_SIZE)
+						.addComponent(label_medium_stars, GroupLayout.DEFAULT_SIZE, 75, GroupLayout.DEFAULT_SIZE))
 					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		gl_panel_display.setVerticalGroup(
 			gl_panel_display.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_display.createSequentialGroup()
-					.addContainerGap(24, Short.MAX_VALUE)
+					.addContainerGap(50, Short.MAX_VALUE)
 					.addGroup(gl_panel_display.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel_display.createSequentialGroup()
-							.addComponent(txt_score, GroupLayout.PREFERRED_SIZE,
-									21, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(txt_maxScore, GroupLayout.PREFERRED_SIZE, 
-									GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txt_speed, GroupLayout.PREFERRED_SIZE,
-									GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(16))
-						.addGroup(gl_panel_display.createSequentialGroup()
-							.addComponent(lable_score, GroupLayout.PREFERRED_SIZE,
-									18, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(label_maxScore, GroupLayout.PREFERRED_SIZE,
-									25, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(label_speed)
-							.addGap(21))))
+							.addGap(10)
+							.addGroup(gl_panel_display.createSequentialGroup()
+							    //.addContainerGap(50, Short.MAX_VALUE)
+								.addGap(10)
+								.addComponent(txt_speed, GroupLayout.PREFERRED_SIZE,
+										18, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(label_slow_stars, GroupLayout.PREFERRED_SIZE,
+										18, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								//.addGap(10)
+								.addComponent(label_medium_stars, GroupLayout.PREFERRED_SIZE, 
+										18, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(label_fast_stars, GroupLayout.PREFERRED_SIZE, 
+										18, GroupLayout.PREFERRED_SIZE)							
+							    .addGap(20))
+						    .addGroup(gl_panel_display.createSequentialGroup()
+								.addGap(5)
+								.addComponent(label_speed, GroupLayout.PREFERRED_SIZE,
+										18, GroupLayout.PREFERRED_SIZE)
+								.addComponent(radioButton_speed1, GroupLayout.DEFAULT_SIZE,
+										18, GroupLayout.DEFAULT_SIZE)
+								.addGap(8)
+								.addComponent(radioButton_speed2, GroupLayout.PREFERRED_SIZE,
+										18, GroupLayout.PREFERRED_SIZE)
+								.addGap(8)
+								.addComponent(radioButton_speed3, GroupLayout.PREFERRED_SIZE,
+										18, GroupLayout.PREFERRED_SIZE)
+								.addGap(16))))
 		);
 		panel_display.setLayout(gl_panel_display);
 		
@@ -327,9 +406,6 @@ public class MainWindow extends JFrame{
 		panel_setMap1.setFocusable(false);
 		panel_setMap2.setFocusable(false);
 		
-		//JPanel panel_setSpeed = new JPanel();
-		// panel_setSpeed.setFocusable(false);
-		// panel_setSpeed.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		GroupLayout gl_panel_set = new GroupLayout(panel_set);
 		gl_panel_set.setHorizontalGroup(
 			gl_panel_set.createParallelGroup(Alignment.LEADING)
@@ -390,51 +466,6 @@ public class MainWindow extends JFrame{
 					.addComponent(separator_1, GroupLayout.DEFAULT_SIZE,
 							0, GroupLayout.DEFAULT_SIZE))
 		);
-		
-		// JLabel label_5 = new JLabel("Speed:");
-		// label_5.setFocusable(false);
-		
-		// JRadioButton radioButton_speed1 = new JRadioButton("Slow");
-		// radioButton_speed1.addMouseListener(new MouseAdapter() {
-		// 	@Override
-		// 	public void mouseClicked(MouseEvent e) {
-		// 			snake.speed = 300;
-		// 			txt_speed.setText(snake.speed + " ms / grid");
-		// 	}
-		// });
-		// radioButton_speed1.setSelected(true);
-		// radioButton_speed1.setFocusable(false);
-		
-		// JRadioButton radioButton_speed2 = new JRadioButton("Medium");
-		// radioButton_speed2.addMouseListener(new MouseAdapter() {
-		// 	@Override
-		// 	public void mouseClicked(MouseEvent e) {
-		// 			snake.speed = 200;
-		// 			txt_speed.setText(snake.speed + " ms / grid");
-		// 	}
-		// });
-		// radioButton_speed2.setFocusable(false);
-		
-		// JRadioButton radioButton_speed3 = new JRadioButton("Fast");
-		// radioButton_speed3.addMouseListener(new MouseAdapter() {
-		// 	@Override
-		// 	public void mouseClicked(MouseEvent e) {
-		// 			snake.speed = 100;
-		// 			txt_speed.setText(snake.speed + " ms / grid");
-		// 	}
-		// });
-		// radioButton_speed3.setFocusable(false);
-		
-		//ButtonGroup groupSpeed = new ButtonGroup();
-		//groupSpeed.add(radioButton_speed1);
-		//groupSpeed.add(radioButton_speed2);
-		//groupSpeed.add(radioButton_speed3);
-		
-		// panel_setSpeed.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
-		// panel_setSpeed.add(label_5);
-		// panel_setSpeed.add(radioButton_speed1);
-		// panel_setSpeed.add(radioButton_speed2);
-		// panel_setSpeed.add(radioButton_speed3);
 		
 		mapLabel = new ImageIcon("images/show_map.png");
 		JLabel label_setMap = new JLabel(mapLabel);
@@ -621,7 +652,6 @@ public class MainWindow extends JFrame{
 					.addGap(20)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
 							21, GroupLayout.PREFERRED_SIZE)
-					//.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(label_2, GroupLayout.PREFERRED_SIZE,
 							21, GroupLayout.PREFERRED_SIZE)
 					.addComponent(label, GroupLayout.PREFERRED_SIZE,
@@ -660,7 +690,7 @@ public class MainWindow extends JFrame{
 								? "Count Down: " + controller.countdownNumber
 								: "" + controller.score);
 				txt_score.setForeground(controller.isCountingDown ? Color.red : Color.BLACK);
-				txt_speed.setText(snake.speed + " ms / grid");
+				txt_speed.setText(snake.speed + " ms/grid");
 				txt_maxScore.setText(controller.maxScore + "");
 				try {
 					Thread.sleep(snake.speed);
