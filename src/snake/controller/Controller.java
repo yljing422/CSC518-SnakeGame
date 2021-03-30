@@ -73,23 +73,18 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			this.changeDirection(Snake.UP);
-//			snake.chanceDirection(Snake.UP);
 			break;
 		case KeyEvent.VK_DOWN:
 			this.changeDirection(Snake.DOWN);
-//			snake.chanceDirection(Snake.DOWN);
 			break;
 		case KeyEvent.VK_LEFT:
 			this.changeDirection(Snake.LEFT);
-//			snake.chanceDirection(Snake.LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
 			this.changeDirection(Snake.RIGHT);
-//			snake.chanceDirection(Snake.RIGHT);
 			break;
 		case KeyEvent.VK_S://Space bar to pause the game
 			this.changePause();
-//			snake.changePause();
 			break;
 		case KeyEvent.VK_W://Shift key to start a new game
 			newGame();
