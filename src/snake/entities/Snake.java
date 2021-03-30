@@ -12,7 +12,8 @@ import snake.listener.SnakeListener;
 import snake.util.Global;
 
 public class Snake {
-	
+	private static final int snakeBody[][] =
+			new int[Global.WIDTH][Global.HEIGHT];
 	//Define the direction variable to control the direction of the snake
 	public static final int UP = -1;
 	public static final int DOWN = 1;
@@ -65,6 +66,8 @@ public class Snake {
 		int y = Global.HEIGHT / 2 ;
 		//Initialize the snake, add three nodes to the snake
 		for(int i = 0; i < 3; i++) {
+			snakeBody[x][y] = 1;
+			Ground.occupied[x][y] = 1;
 			body.addLast(new Point(x--, y));
 		}
 		//Initialization direction, right
@@ -73,40 +76,6 @@ public class Snake {
 		pause = false;
 		isPause = true;
 		
-	}
-
-	public Point getNextMove() {
-		int x = body.getFirst().x;
-		int y = body.getFirst().y;
-		switch (oldDirection) {
-			case UP: //Move up
-				y--;
-				//When you get to the side, you can appear from the other side
-				if (y < 0) {
-					y = Global.HEIGHT - 1;
-				}
-				break;
-			case DOWN:
-				y++;
-				//When you get to the side, you can appear from the other side
-				if (y >= Global.HEIGHT) {
-					y = 0;
-				}
-				break;
-			case LEFT:
-				x--;
-				if (x < 0) {
-					x = Global.WIDTH - 1;
-				}
-				break;
-			case RIGHT:
-				x++;
-				if (x >= Global.WIDTH) {
-					x = 0;
-				}
-				break;
-		}
-		return new Point(x, y);
 	}
 
 	/*
@@ -119,6 +88,10 @@ public class Snake {
 			oldDirection = newDirection;
 		}
 		//Tail off
+		int tailX = body.getLast().x;
+		int tailY = body.getLast().y;
+		snakeBody[tailX][tailY] = 0;
+		Ground.occupied[tailX][tailY] = 1;
 		oldTail = body.removeLast();
 		int x = body.getFirst().x;
 		int y = body.getFirst().y;
@@ -152,6 +125,8 @@ public class Snake {
 		
 		}
 		//Record the coordinates of the snake head
+		snakeBody[x][y] = 1;
+		Ground.occupied[x][y] = 1;
 		Point newHead = new Point(x, y);
 		//Add head
 		body.addFirst(newHead);

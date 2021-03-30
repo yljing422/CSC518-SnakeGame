@@ -15,6 +15,8 @@ public class Ground {
 	define a new int array to store trees,if there is a tree,the value is 1,otherwise is 0
 	it must be static to avoid cause collision when generate food
     */
+	public static final int occupied[][] =
+			new int[Global.WIDTH][Global.HEIGHT];
 	private static final int trees[][] =
 			new int[Global.WIDTH][Global.HEIGHT];
 	// Count the number of trees
@@ -31,9 +33,12 @@ public class Ground {
 	}
 	//clear all trees
 	public void clear() {
-		for (int x = 0; x < Global.WIDTH; x++)
-			for (int y = 0; y < Global.HEIGHT; y++)
+		for (int x = 0; x < Global.WIDTH; x++) {
+			for (int y = 0; y < Global.HEIGHT; y++) {
 				trees[x][y] = 0;
+				occupied[x][y] = 0;
+			}
+		}
 	}
 	//initial the position of all trees
 	public void init() {
@@ -64,10 +69,12 @@ public class Ground {
 	public void map1() {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			trees[x][0] = 1;
+			occupied[x][0] = 1;
 			trees[x][Global.HEIGHT-1] = 1;
 		}
 		for(int y = 0; y < Global.HEIGHT; y++) {
 			trees[0][y] = 1;
+			occupied[0][y] = 1;
 			trees[Global.WIDTH-1][y]  = 1;
 		}
 	}
@@ -81,6 +88,7 @@ public class Ground {
 		int x = random.nextInt(Global.WIDTH);
 		int y = random.nextInt(Global.HEIGHT);
 		trees[x][y] = 1;
+		occupied[x][y] = 1;
 	}
 
 	//get the total number of trees
@@ -102,12 +110,19 @@ public class Ground {
 			Point point = getPoint();
 			int p = point.x;
 			int q = point.y;
+			while (occupied[p][q] == 1) {
+				point = getPoint();
+				p = point.x;
+				q = point.y;
+			}
 			trees[p][q] = 1;
+			occupied[p][q] = 1;
 			boolean ishit = isSnakeHitTree(snake);
 			if(!ishit) {
 				break;
 			}
 			trees[p][q] = 0;
+			occupied[p][q] = 0;
 		}
 	}
 	//check whether the snake hit a tree
