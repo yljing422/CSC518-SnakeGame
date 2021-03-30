@@ -55,7 +55,7 @@ public class Ground {
 				getTreesCount();
 				break;
 			default :
-				map1(); //default is map1
+				map1(); //Ĭ�ϵ�ͼ1
 				getTreesCount();
 				break;
 		}
@@ -75,7 +75,7 @@ public class Ground {
 	public void map2() {
 		clear();
 	}
-	//map 3  create a random tree
+	//map 3  set 40 trees randomly
 	public void map3() {
 		Random random = new Random();
 		int x = random.nextInt(Global.WIDTH);
@@ -94,14 +94,12 @@ public class Ground {
 				}
 	}
 
-	// In MAP3, whenever snake eat food, this function is called.
-	// This function will first generate a random point (In a point where no tree is there),
-	// if it not overlapped with snake body, a tree is successfully generated.
-	public void createNewTree(Snake snake) {
+	// use random sampling to improve
+	public boolean createNewTree(Snake snake) {
+		Random random = new Random();
 		while(true) {
-			Point point = getPoint();
-			int p = point.x;
-			int q = point.y;
+			int p = random.nextInt(Global.WIDTH);
+			int q = random.nextInt(Global.HEIGHT);
 			trees[p][q] = 1;
 			boolean ishit = isSnakeHitTree(snake);
 			if(!ishit) {
@@ -109,6 +107,7 @@ public class Ground {
 			}
 			trees[p][q] = 0;
 		}
+		return true;
 	}
 	//check whether the snake hit a tree
 	//by comparing the snake's body with positions of all trees
@@ -146,7 +145,7 @@ public class Ground {
 		for(int x = 0; x < Global.WIDTH; x++) {
 			for (int y = 0; y < Global.HEIGHT; y++) {
 				if (trees[x][y] == 1) {
-					ImageIcon icon2 =new ImageIcon("images/tree.png");
+					ImageIcon icon2 =new ImageIcon("images/tree.jpeg");
 					g.drawImage(icon2.getImage(),x * Global.CELL_SIZE, y * Global.CELL_SIZE, Global.CELL_SIZE, Global.CELL_SIZE,img);
 				}
 			}
