@@ -37,6 +37,7 @@ public class MainWindow extends JFrame{
 	// Message bar
 	private JTextField txt_message;
 	private JTextField txt_score1;
+	private JTextField txt_maxScore1;
 	    
 	GamePanel gamePanel = new GamePanel();
 	Controller controller = new Controller(snake, food, ground, gamePanel);
@@ -66,7 +67,7 @@ public class MainWindow extends JFrame{
 		txt_message.setEditable(false);
 		txt_message.setFocusable(false);
 		txt_message.setBorder(BorderFactory.createEmptyBorder());
-		txt_message.setColumns(75);
+		txt_message.setColumns(65);
 
 		JLabel main_label_score1 = new JLabel("Score:");
 		main_label_score1.setFocusable(false);
@@ -78,19 +79,32 @@ public class MainWindow extends JFrame{
 		txt_score1.setBorder(BorderFactory.createEmptyBorder());
 		txt_score1.setColumns(5);
 
+		JLabel main_label_maxScore1 = new JLabel("Top Score:");
+		main_label_maxScore1.setFocusable(false);
+
+		txt_maxScore1 = new JTextField();
+		txt_maxScore1.setText(controller.maxScore + "");
+		txt_maxScore1.setEditable(false);
+		txt_maxScore1.setFocusable(false);
+		txt_maxScore1.setBorder(BorderFactory.createEmptyBorder());
+		txt_maxScore1.setColumns(5);
+
 		message_panel.setFocusable(false);
 		GroupLayout mg_group = new GroupLayout(message_panel);
 		mg_group.setHorizontalGroup(
 				mg_group.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.LEADING, mg_group.createSequentialGroup()
 								.addComponent(txt_message, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
-								.addContainerGap())
-						.addGroup(Alignment.LEADING, mg_group.createSequentialGroup()
-								.addComponent(main_label_score1, GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
-								.addContainerGap())
-						.addGroup(Alignment.LEADING, mg_group.createSequentialGroup()
-								.addComponent(txt_score1, GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
-								.addContainerGap())
+								.addContainerGap()
+								.addComponent(main_label_score1, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+								.addContainerGap()
+								.addComponent(txt_score1, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+								.addContainerGap()
+								.addComponent(main_label_maxScore1, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+								.addContainerGap()
+								.addComponent(txt_maxScore1, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+								.addContainerGap()
+						)
 		);
 
 		JPanel panel = new JPanel();
@@ -466,7 +480,7 @@ public class MainWindow extends JFrame{
 		button_pause.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				snake.changePause();
+				controller.changePause();
 			}
 		});
 		button_pause.setFocusPainted(false);
@@ -593,13 +607,18 @@ public class MainWindow extends JFrame{
 			//The snake circulates when it is alive
 			while(!snake.isDie) {
 				txt_score1.setText(controller.score + "");
+				txt_maxScore1.setText(controller.maxScore + "");
 				txt_message.setText(controller.message);
 
 //				txt_score.setText(
 //						controller.isCountingDown
 //								? "Count Down: " + controller.countdownNumber
 //								: "" + controller.score);
+
+				txt_score1.setForeground(controller.isCountingDown ? Color.red : Color.BLACK);
 				txt_score.setForeground(controller.isCountingDown ? Color.red : Color.BLACK);
+
+				txt_message.setForeground(controller.isCountingDown ? Color.red : Color.BLACK);
 				txt_speed.setText(snake.speed + " ms / grid");
 				txt_maxScore.setText(controller.maxScore + "");
 				try {
