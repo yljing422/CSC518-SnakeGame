@@ -78,7 +78,7 @@ public class MainWindow extends JFrame{
 		setLocation(getToolkit().getScreenSize().width / 2 - Global.CELL_SIZE * Global.WIDTH / 2,
 				getToolkit().getScreenSize().height / 2 - Global.CELL_SIZE * Global.WIDTH / 2);
  
-		setSize(821, 760);
+		setSize(821, 811);
 		addKeyListener(controller);
 		contentPane = new JPanel();
 		contentPane.setFocusCycleRoot(true);
@@ -92,24 +92,29 @@ public class MainWindow extends JFrame{
 		txt_message = new JTextField();
 		txt_message.setText("");
 		txt_message.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_message.setFont(new Font("American Typewriter", Font.PLAIN, 13));
 		txt_message.setEditable(false);
 		txt_message.setFocusable(false);
 		txt_message.setColumns(40);
 
 		JLabel main_label_score = new JLabel("Score:");
 		main_label_score.setFocusable(false);
+		main_label_score.setFont(new Font("American Typewriter", Font.BOLD, 13));
 
 		txt_score = new JTextField();
 		txt_score.setText("0");
+		txt_score.setFont(new Font("American Typewriter", Font.ITALIC, 13));
 		txt_score.setEditable(false);
 		txt_score.setFocusable(false);
 		txt_score.setColumns(5);
 
 		JLabel main_label_maxScore = new JLabel("Top Score:");
 		main_label_maxScore.setFocusable(false);
+		main_label_maxScore.setFont(new Font("American Typewriter", Font.BOLD, 13));
 
 		txt_maxScore = new JTextField();
 		txt_maxScore.setText(controller.maxScore + "");
+		txt_maxScore.setFont(new Font("American Typewriter", Font.ITALIC, 13));
 		txt_maxScore.setEditable(false);
 		txt_maxScore.setFocusable(false);
 		txt_maxScore.setColumns(5);
@@ -634,11 +639,11 @@ public class MainWindow extends JFrame{
 		label.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label.setFocusable(false);
 
-		JLabel label_A = new JLabel("Press A to speed up");
+		JLabel label_A = new JLabel("Press A to slow down");
 		label_A.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_A.setFocusable(false);
 
-		JLabel label_D = new JLabel("Press D to slow down");
+		JLabel label_D = new JLabel("Press D to speed up");
 		label_D.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_D.setFocusable(false);
 		

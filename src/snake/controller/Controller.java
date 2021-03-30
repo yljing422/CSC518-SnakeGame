@@ -92,10 +92,10 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		case KeyEvent.VK_W://Shift key to start a new game
 			newGame();
 			break;
-		case KeyEvent.VK_A:	//A to speed up
+		case KeyEvent.VK_A:	//A to slow down
 			snake.speed += 5;
 			break;
-		case KeyEvent.VK_D:	//D to slow down
+		case KeyEvent.VK_D:	//D to speed up
 			snake.speed -= 5;
 			break;
 		case KeyEvent.VK_C: //C to cheat, but only has 3 times.
