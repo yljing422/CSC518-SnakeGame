@@ -45,6 +45,7 @@ public class MainWindow extends JFrame{
 	public JTextField txt_score;
 	private JTextField txt_speed;
 	private JTextField txt_maxScore;
+	private JTextField txt_message;
 	private ImageIcon optionButton;  
 	private ImageIcon onButton;
 	private ImageIcon offButton;
@@ -85,7 +86,52 @@ public class MainWindow extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		
+		// Message Panel
+		JPanel message_panel = new JPanel();
+
+		txt_message = new JTextField();
+		txt_message.setText("");
+		txt_message.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_message.setEditable(false);
+		txt_message.setFocusable(false);
+		txt_message.setColumns(40);
+
+		JLabel main_label_score = new JLabel("Score:");
+		main_label_score.setFocusable(false);
+
+		txt_score = new JTextField();
+		txt_score.setText("0");
+		txt_score.setEditable(false);
+		txt_score.setFocusable(false);
+		txt_score.setColumns(5);
+
+		JLabel main_label_maxScore = new JLabel("Top Score:");
+		main_label_maxScore.setFocusable(false);
+
+		txt_maxScore = new JTextField();
+		txt_maxScore.setText(controller.maxScore + "");
+		txt_maxScore.setEditable(false);
+		txt_maxScore.setFocusable(false);
+		txt_maxScore.setColumns(5);
+
+		message_panel.setFocusable(false);
+		GroupLayout mg_group = new GroupLayout(message_panel);
+		mg_group.setHorizontalGroup(
+			mg_group.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.LEADING, mg_group.createSequentialGroup()
+					.addComponent(txt_message, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+					.addContainerGap()
+					.addComponent(main_label_score, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+					.addContainerGap()
+					.addComponent(txt_score, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+					.addContainerGap()
+					.addComponent(main_label_maxScore, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+					.addContainerGap()
+					.addComponent(txt_maxScore, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
+					.addContainerGap()
+				)
+		);
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel.setFocusCycleRoot(true);
@@ -118,6 +164,9 @@ public class MainWindow extends JFrame{
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(message_panel, GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+					.addGap(2))
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 801, Short.MAX_VALUE)
 					.addGap(10))
 				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
@@ -127,6 +176,7 @@ public class MainWindow extends JFrame{
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(message_panel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 505, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 205, Short.MAX_VALUE)
@@ -279,20 +329,8 @@ public class MainWindow extends JFrame{
 		lable_score.setHorizontalTextPosition(SwingConstants.CENTER);
 		lable_score.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		txt_score = new JTextField();
-		txt_score.setText("0");
-		txt_score.setEditable(false);
-		txt_score.setFocusable(false);
-		txt_score.setColumns(10);
-		
 		JLabel label_maxScore = new JLabel("Top score:");
 		label_maxScore.setFocusable(false);
-		
-		txt_maxScore = new JTextField();
-		txt_maxScore.setText(controller.maxScore + "");
-		txt_maxScore.setEditable(false);
-		txt_maxScore.setFocusable(false);
-		txt_maxScore.setColumns(10);
 		
 		JLabel label_speed = new JLabel("Speed:");
 		label_speed.setFont(new Font("American Typewriter", Font.BOLD, 14));
@@ -596,11 +634,11 @@ public class MainWindow extends JFrame{
 		label.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label.setFocusable(false);
 
-		JLabel label_A = new JLabel("Press A to slow down");
+		JLabel label_A = new JLabel("Press A to speed up");
 		label_A.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_A.setFocusable(false);
 
-		JLabel label_D = new JLabel("Press D to speed up");
+		JLabel label_D = new JLabel("Press D to slow down");
 		label_D.setFont(new Font("American Typewriter", Font.PLAIN, 11));
 		label_D.setFocusable(false);
 		
@@ -690,14 +728,13 @@ public class MainWindow extends JFrame{
 		@Override
 		public void run() {
 			//The snake circulates when it is alive
-			while(!snake.isDie) {
-				txt_score.setText(
-						controller.isCountingDown
-								? "Count Down: " + controller.countdownNumber
-								: "" + controller.score);
-				txt_score.setForeground(controller.isCountingDown ? Color.red : Color.BLACK);
-				txt_speed.setText(snake.speed + " ms/grid");
+			while(! snake.isDie) {
+				txt_score.setText(controller.score + "");
+				txt_score.setForeground(controller.isCountingDown ? Color.RED : Color.BLACK);
 				txt_maxScore.setText(controller.maxScore + "");
+				txt_message.setText(controller.message);
+				txt_message.setForeground(controller.isCountingDown ? Color.RED : Color.BLACK);
+				txt_speed.setText(snake.speed + " ms/grid");
 				try {
 					Thread.sleep(snake.speed);
 				} catch (InterruptedException e) {

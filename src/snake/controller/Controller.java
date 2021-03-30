@@ -41,6 +41,7 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public int score = 0;
 	//Store the highest score in history, this data is assigned by reading the file
 	public int maxScore;
+	public String message;
 	public Thread thread;
 	public boolean isDeductingScore = false;
 	public int cheatTime = 3;
@@ -74,27 +75,27 @@ public class Controller extends KeyAdapter implements SnakeListener {
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			snake.chanceDirection(Snake.UP);
+			this.changeDirection(Snake.UP);
 			break;
 		case KeyEvent.VK_DOWN:
-			snake.chanceDirection(Snake.DOWN);
+			this.changeDirection(Snake.DOWN);
 			break;
 		case KeyEvent.VK_LEFT:
-			snake.chanceDirection(Snake.LEFT);
+			this.changeDirection(Snake.LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
-			snake.chanceDirection(Snake.RIGHT);
+			this.changeDirection(Snake.RIGHT);
 			break;
 		case KeyEvent.VK_S://Space bar to pause the game
-			snake.changePause();
+			this.changePause();
 			break;
 		case KeyEvent.VK_W://Shift key to start a new game
 			newGame();
 			break;
-		case KeyEvent.VK_A:	//A to slow down
+		case KeyEvent.VK_A:	//A to speed up
 			snake.speed += 5;
 			break;
-		case KeyEvent.VK_D:	//D to speed up
+		case KeyEvent.VK_D:	//D to slow down
 			snake.speed -= 5;
 			break;
 		case KeyEvent.VK_C: //C to cheat, but only has 3 times.
@@ -102,8 +103,10 @@ public class Controller extends KeyAdapter implements SnakeListener {
 				cheatGame();
 				cheatTime--;
 				// message bar: will note how many times left for user
+				this.message = "You have " + cheatTime + " chance(s) left to cheat!";
 			} else {
 				// message bar: will note that the user have no chance to cheat.
+				this.message = "You have no chance left to cheat!";
 			}
 			break;
 		case KeyEvent.VK_T:	//T for switch to tree map
@@ -131,6 +134,9 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		if (Global.count - this.snake.snakeBodyCount - ground.treesCount < 3) {
 			snake.die();
 			writeMaxScore();
+
+			// display the Message bar
+			this.message = "You have got the highest score. Game is over!";
 			//A message box will pop up, prompting that the game is over and showing the score
 			JOptionPane.showMessageDialog(gamePanel, "You have got the highest score, the game is over!\n       Game score: "+ score);
 		}
@@ -153,8 +159,9 @@ public class Controller extends KeyAdapter implements SnakeListener {
 			// message bar: note the user they can escape until the score to 0
 			this.countdownNumber--;
 			this.isCountingDown = true;
-			if (this.countdownNumber > 0) {
+			if (this.countdownNumber >= 0) {
 				snake.backwardOneStep();
+				this.message = "Count down: " + this.countdownNumber + " Please move away!!!";
 			}
 		} else {
 			this.isCountingDown = false;
@@ -213,6 +220,8 @@ public class Controller extends KeyAdapter implements SnakeListener {
 		}
 		//Get new food coordinates
 		food.newFood(snake.getFoodPoint());
+		// Clear the message board
+		this.message = "";
 
 		/*
 		 * Determine whether the snake is dead, if it is,
@@ -296,5 +305,18 @@ public class Controller extends KeyAdapter implements SnakeListener {
 	public Thread startRefresh(Thread thread) {
 		this.thread = thread;
 		return this.thread;
+	}
+
+	// Snake pause + massage clearance
+	public void changePause() {
+		snake.changePause();
+		this.message = "";
+	}
+
+	// Snake change direction + message clearance
+	public void changeDirection(int direction) {
+		snake.changeDirection(direction);
+		this.message = "";
+
 	}
 }
