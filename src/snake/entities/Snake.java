@@ -163,7 +163,7 @@ public class Snake {
 	}
 
 	//Snake changes direction
-	public void chanceDirection(int direction) {
+	public void changeDirection(int direction) {
 		newDirection = direction;
 	}
 	//Snake eats food
