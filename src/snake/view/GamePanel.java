@@ -1,4 +1,3 @@
-
 package snake.view;
 
 import java.awt.Color;
