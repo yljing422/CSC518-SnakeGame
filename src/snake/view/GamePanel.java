@@ -1,15 +1,15 @@
+
 package snake.view;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import javax.swing.JPanel;
+
 import snake.entities.Food;
 import snake.entities.Ground;
 import snake.entities.Snake;
-
+import snake.util.Global;
 //The display interface of the game
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel{
@@ -17,15 +17,6 @@ public class GamePanel extends JPanel{
 	private Snake snake;
 	private Food food;
 	private Ground ground;
-	private Image bg;
-	public GamePanel(){
-		try {
-			String path1 = "images/bg.png";
-			bg = ImageIO.read(new File (path1));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-	}
 	//Display screen
 	public void display(Snake snake, Food food, Ground ground) {
 		this.snake = snake;
@@ -36,9 +27,11 @@ public class GamePanel extends JPanel{
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
-
-		//Set background 
-		g.drawImage(bg, 0, 0, null);
+		//Redisplay
+		//Set background color
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, Global.WIDTH * Global.CELL_SIZE, 
+				Global.HEIGHT * Global.CELL_SIZE);
 		if(ground != null && snake != null && food != null ) {
 			this.ground.drawMe(g);
 			this.snake.drawMe(g);
