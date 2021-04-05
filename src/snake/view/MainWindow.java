@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.swing.BorderFactory;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
@@ -95,7 +96,8 @@ public class MainWindow extends JFrame{
 		txt_message.setFont(new Font("American Typewriter", Font.PLAIN, 13));
 		txt_message.setEditable(false);
 		txt_message.setFocusable(false);
-		txt_message.setColumns(40);
+		txt_message.setBorder(BorderFactory.createEmptyBorder());
+		txt_message.setColumns(48);
 
 		JLabel main_label_score = new JLabel("Score:");
 		main_label_score.setFocusable(false);
@@ -106,7 +108,8 @@ public class MainWindow extends JFrame{
 		txt_score.setFont(new Font("American Typewriter", Font.ITALIC, 13));
 		txt_score.setEditable(false);
 		txt_score.setFocusable(false);
-		txt_score.setColumns(5);
+		txt_score.setBorder(BorderFactory.createEmptyBorder());
+		txt_score.setColumns(6);
 
 		JLabel main_label_maxScore = new JLabel("Top Score:");
 		main_label_maxScore.setFocusable(false);
@@ -117,7 +120,8 @@ public class MainWindow extends JFrame{
 		txt_maxScore.setFont(new Font("American Typewriter", Font.ITALIC, 13));
 		txt_maxScore.setEditable(false);
 		txt_maxScore.setFocusable(false);
-		txt_maxScore.setColumns(5);
+		txt_maxScore.setBorder(BorderFactory.createEmptyBorder());
+		txt_maxScore.setColumns(7);
 
 		message_panel.setFocusable(false);
 		GroupLayout mg_group = new GroupLayout(message_panel);
