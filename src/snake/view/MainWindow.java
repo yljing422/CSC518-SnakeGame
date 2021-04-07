@@ -527,6 +527,8 @@ public class MainWindow extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				ground.MAP = 1;
 				ground.init();
+				//Restart the game
+				controller.newGame();
 			}
 		});
 		radioButton_map1.setSelected(true);
@@ -543,6 +545,8 @@ public class MainWindow extends JFrame{
 				ground.MAP = 2;
 				//Reinitialize the map
 				ground.init();
+				//Restart the game
+				controller.newGame();
 			}
 		});
 		radioButton_map2.setFocusable(false);
